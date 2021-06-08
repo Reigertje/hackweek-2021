@@ -76,6 +76,10 @@ class GameScene extends Phaser.Scene {
     this.physics.add.collider(enemies, tiles, (enemy, _) => {
       enemy.turn();
     });
+    this.physics.add.collider(enemies, bullets, (enemy, bullet) => {
+      bullet.kill();
+      enemy.hit();
+    });
   }
 
   create() {

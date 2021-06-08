@@ -23,7 +23,7 @@ class Enemy1 extends Phaser.GameObjects.Container {
 
     this.add(this.midge);
 
-    // scene.refs.enemies.add(this);
+    scene.refs.enemies.add(this);
   }
 
   preUpdate() {
@@ -34,7 +34,9 @@ class Enemy1 extends Phaser.GameObjects.Container {
     this.goDown = !this.goDown;
   }
 
-  hit() {}
+  hit() {
+    this.destroy();
+  }
 }
 
 export default Enemy1;

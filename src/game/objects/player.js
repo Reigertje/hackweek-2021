@@ -62,7 +62,7 @@ class Player extends Phaser.GameObjects.Container {
       this.body.setAngularVelocity(0);
     }
 
-    if (cursors.space.isDown) {
+    if (Phaser.Input.Keyboard.JustDown(cursors.space)) {
       const bullet = bullets.get();
       if (bullet) {
         bullet.fire(this);
