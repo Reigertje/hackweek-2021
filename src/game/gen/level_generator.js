@@ -25,8 +25,10 @@ class LevelGenerator {
     const templates = new LevelTemplates();
     const maze = new MazeGenerator(4, 4).generate();
     const level = new Level(
-      maze.width * templates.width,
-      maze.height * templates.height
+      maze.width,
+      maze.height,
+      templates.width,
+      templates.height
     );
 
     generateLevel(level, maze, templates);

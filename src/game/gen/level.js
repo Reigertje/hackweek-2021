@@ -1,9 +1,23 @@
 import Grid from "./grid";
+import Point from "./point";
 
 class Level extends Grid {
-  constructor(width, height) {
-    super(width, height);
+  constructor(mazeWidth, mazeHeight, templateWidth, templateHeight) {
+    super(mazeWidth * templateWidth, mazeHeight * templateHeight);
+
+    this.mazeWidth = mazeWidth;
+    this.mazeHeight = mazeHeight;
+    this.templateWidth = templateWidth;
+    this.templateHeight = templateHeight;
+
     this.fill("?");
+  }
+
+  getRoomPosition(x, y) {
+    return new Point(
+      Math.floor(x / this.templateWidth),
+      Math.floor(y / this.templateHeight)
+    );
   }
 
   toString() {

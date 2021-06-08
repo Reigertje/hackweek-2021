@@ -5,14 +5,16 @@ import BackgroundScene from "./background_scene";
 import { randomInt } from "./gen/random";
 
 import Player from "./objects/player";
-import Enemy1 from "./objects/enemy1";
+import Mosquito from "./objects/mosquito";
 
 import Bullet1 from "./objects/bullet1";
 
 class GameScene extends Phaser.Scene {
-  constructor() {
-    super("game");
-    this.refs = {};
+  constructor(key, levelIndex) {
+    super(key);
+    this.refs = {
+      levelIndex,
+    };
   }
 
   preload() {
@@ -37,7 +39,7 @@ class GameScene extends Phaser.Scene {
   }
 
   addBackground() {
-    this.scene.add("background", BackgroundScene, true, { x: 400, y: 300 });
+    this.scene.run("background", this.refs);
     this.scene.bringToTop();
   }
 
@@ -60,8 +62,23 @@ class GameScene extends Phaser.Scene {
 
         if (level.at(x, y) === "#") {
           layer1.putTileAt(randomInt(4), x, ty);
+        } else if (level.at(x, y) === "C") {
+          const p = level.getRoomPosition(x, y);
+          console.log(p.x + " , " + p.y);
+          if (p.x === 0 && p.y === 0) {
+            // Create player
+            this.refs.player = this.add.existing(
+              new Player(this, x * 24, ty * 24)
+            );
+            this.cameras.main.startFollow(this.refs.player);
+            this.cameras.main.setZoom(2);
+          }
+          if (p.x === 1 && p.y === 0) {
+            this.refs.portal = this.add.sprite(x * 24, ty * 24, "enemy");
+            this.physics.world.enable(this.refs.portal);
+          }
         } else if (level.at(x, y) === "1" && randomInt(2) === 0) {
-          const enemy = new Enemy1(this, x * 24 + 12, ty * 24 + 12);
+          const enemy = new Mosquito(this, x * 24 + 12, ty * 24 + 12);
           this.add.existing(enemy);
         }
       }
@@ -70,6 +87,11 @@ class GameScene extends Phaser.Scene {
     map.setCollision([0, 1, 2, 3], true, false, "layer1", true);
 
     this.refs.tiles = layer1;
+  }
+
+  nextLevel() {
+    console.log("hello");
+    this.scene.start("level2");
   }
 
   createColliders() {
@@ -84,11 +106,21 @@ class GameScene extends Phaser.Scene {
     });
     this.physics.add.collider(enemies, bullets, (enemy, bullet) => {
       bullet.kill();
-      enemy.hit();
+      enemy.hit(1);
     });
     this.physics.add.collider(player, enemies, (player, enemy) => {
       player.kill();
     });
+    this.physics.add.collider(
+      player,
+      this.refs.portal,
+      (player, portal) => {
+        this.nextLevel();
+      },
+      (player, portal) => {
+        return true;
+      }
+    );
   }
 
   create() {
@@ -107,11 +139,6 @@ class GameScene extends Phaser.Scene {
 
     // Create input
     this.refs.cursors = this.input.keyboard.createCursorKeys();
-
-    // Create player
-    this.refs.player = this.add.existing(new Player(this, 50, 50));
-    this.cameras.main.startFollow(this.refs.player);
-    this.cameras.main.setZoom(2);
 
     this.addBackground();
 
