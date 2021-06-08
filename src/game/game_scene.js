@@ -12,6 +12,7 @@ import Bullet from "./gobj/bullet";
 class GameScene extends Phaser.Scene {
   constructor() {
     super("game");
+    this.refs = {};
   }
 
   preload() {
@@ -29,26 +30,13 @@ class GameScene extends Phaser.Scene {
     });
   }
 
-  create() {
+  addBackground() {
     this.scene.add("background", BackgroundScene, true, { x: 400, y: 300 });
     this.scene.bringToTop();
+  }
+
+  generateLevel() {
     const level = new LevelGenerator().generate();
-
-    const player = this.add.existing(new Player(this, 50, 50));
-
-    this.add.sprite(0, 0, "bullet");
-
-    this.add.sprite(0, 24, "bullet");
-
-    const bullets = this.physics.add.group({
-      classType: Bullet,
-      maxSize: 30,
-      runChildUpdate: true,
-    });
-
-    const enemies = this.physics.add.group();
-
-    const cursors = this.input.keyboard.createCursorKeys();
 
     const map = this.make.tilemap({
       width: level.width,
@@ -69,28 +57,49 @@ class GameScene extends Phaser.Scene {
         } else if (level.at(x, y) === "1" && randomInt(2) === 0) {
           const enemy = new Enemy1(this, x * 24 + 12, ty * 24 + 12);
           this.add.existing(enemy);
-          enemies.add(enemy);
         }
       }
     }
 
     map.setCollision([0, 1, 2, 3], true, false, "layer1", true);
-    this.physics.add.collider(player, layer1);
-    this.physics.add.collider(bullets, layer1, (bullet, _tile) => {
+
+    this.refs.tiles = layer1;
+  }
+
+  createColliders() {
+    const { player, tiles, enemies, bullets } = this.refs;
+
+    this.physics.add.collider(player, tiles);
+    this.physics.add.collider(bullets, tiles, (bullet, _tile) => {
       bullet.kill();
     });
-    this.physics.add.collider(enemies, layer1, (enemy, _) => {
+    this.physics.add.collider(enemies, tiles, (enemy, _) => {
       enemy.turn();
     });
+  }
 
-    this.cameras.main.startFollow(player);
+  create() {
+    // Create groups
+    this.refs.bullets = this.physics.add.group({
+      classType: Bullet,
+      maxSize: 30,
+      runChildUpdate: true,
+    });
+    this.refs.enemies = this.physics.add.group();
+
+    // Create input
+    this.refs.cursors = this.input.keyboard.createCursorKeys();
+
+    // Create player
+    this.refs.player = this.add.existing(new Player(this, 50, 50));
+    this.cameras.main.startFollow(this.refs.player);
     this.cameras.main.setZoom(2);
 
-    this.refs = {
-      player,
-      bullets,
-      cursors,
-    };
+    this.addBackground();
+
+    this.generateLevel();
+
+    this.createColliders();
   }
 
   update() {}
