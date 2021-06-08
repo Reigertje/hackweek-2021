@@ -1,6 +1,5 @@
 import * as Phaser from "phaser";
 import LevelGenerator from "./gen/level_generator";
-import BackgroundScene from "./background_scene";
 
 import { randomInt } from "./gen/random";
 
@@ -9,17 +8,22 @@ import Mosquito from "./objects/mosquito";
 
 import Bullet1 from "./objects/bullet1";
 
-class GameScene extends Phaser.Scene {
-  constructor(key, levelIndex) {
-    super(key);
-    this.refs = {
-      levelIndex,
-    };
+import LevelScene from "./level_scene";
+
+class GeneratedLevelScene extends LevelScene {
+  constructor(key, props) {
+    super(key, props);
+    this.refs = {};
   }
 
   preload() {
+    super.preload();
+
+    this.textures.remove("tiles");
+    this.load.image("tiles", this.props.tilesAsset);
+
     this.load.image("enemy", "assets/enemy.png");
-    this.load.image("wall", "assets/wall.png");
+
     this.load.spritesheet("bullet", "assets/bullet.png", {
       frameWidth: 16,
       frameHeight: 9,
@@ -38,13 +42,11 @@ class GameScene extends Phaser.Scene {
     });
   }
 
-  addBackground() {
-    this.scene.run("background", this.refs);
-    this.scene.bringToTop();
-  }
-
   generateLevel() {
-    const level = new LevelGenerator().generate();
+    const level = new LevelGenerator().generate(
+      this.props.mazeWidth,
+      this.props.mazeHeight
+    );
 
     const map = this.make.tilemap({
       width: level.width,
@@ -52,7 +54,8 @@ class GameScene extends Phaser.Scene {
       tileWidth: 24,
       tileHeight: 24,
     });
-    const tileset = map.addTilesetImage("wall");
+
+    const tileset = map.addTilesetImage("tiles");
 
     const layer1 = map.createBlankLayer("layer1", tileset);
 
@@ -64,7 +67,6 @@ class GameScene extends Phaser.Scene {
           layer1.putTileAt(randomInt(4), x, ty);
         } else if (level.at(x, y) === "C") {
           const p = level.getRoomPosition(x, y);
-          console.log(p.x + " , " + p.y);
           if (p.x === 0 && p.y === 0) {
             // Create player
             this.refs.player = this.add.existing(
@@ -73,7 +75,7 @@ class GameScene extends Phaser.Scene {
             this.cameras.main.startFollow(this.refs.player);
             this.cameras.main.setZoom(2);
           }
-          if (p.x === 1 && p.y === 0) {
+          if (p.x === level.mazeWidth - 1 && p.y === level.mazeHeight - 1) {
             this.refs.portal = this.add.sprite(x * 24, ty * 24, "enemy");
             this.physics.world.enable(this.refs.portal);
           }
@@ -87,11 +89,6 @@ class GameScene extends Phaser.Scene {
     map.setCollision([0, 1, 2, 3], true, false, "layer1", true);
 
     this.refs.tiles = layer1;
-  }
-
-  nextLevel() {
-    console.log("hello");
-    this.scene.start("level2");
   }
 
   createColliders() {
@@ -124,6 +121,8 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
+    super.create();
+
     // Create groups
     this.refs.bullets = this.physics.add.group({
       classType: Bullet1,
@@ -140,8 +139,6 @@ class GameScene extends Phaser.Scene {
     // Create input
     this.refs.cursors = this.input.keyboard.createCursorKeys();
 
-    this.addBackground();
-
     this.generateLevel();
 
     this.createColliders();
@@ -150,4 +147,4 @@ class GameScene extends Phaser.Scene {
   update() {}
 }
 
-export default GameScene;
+export default GeneratedLevelScene;
