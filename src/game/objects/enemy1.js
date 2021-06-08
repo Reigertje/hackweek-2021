@@ -16,7 +16,6 @@ class Enemy1 extends Phaser.GameObjects.Container {
     this.midge.play({ key: "fly", repeat: -1 });
 
     this.setSize(15, 15);
-
     scene.physics.world.enable(this);
     this.goDown = randomBool;
     this.max_speed = 25;

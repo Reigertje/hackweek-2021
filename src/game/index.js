@@ -1,8 +1,6 @@
 import * as Phaser from "phaser";
 
 import GameScene from "./game_scene";
-import BackgroundScene from "./background_scene";
-import BootScene from "./boot_scene";
 
 class Game extends Phaser.Game {
   constructor(react) {
@@ -17,7 +15,7 @@ class Game extends Phaser.Game {
         arcade: {
           fps: 60,
           gravity: { y: 0 },
-          debug: true,
+          debug: false,
         },
       },
       render: {

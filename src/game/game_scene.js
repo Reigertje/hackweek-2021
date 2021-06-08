@@ -7,7 +7,7 @@ import { randomInt } from "./gen/random";
 import Player from "./objects/player";
 import Enemy1 from "./objects/enemy1";
 
-import Bullet from "./gobj/bullet";
+import Bullet1 from "./objects/bullet1";
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -18,8 +18,14 @@ class GameScene extends Phaser.Scene {
   preload() {
     this.load.image("enemy", "assets/enemy.png");
     this.load.image("wall", "assets/wall.png");
-    this.load.image("bullet", "assets/bullet.png");
-    this.load.image("ship", "assets/ship.png");
+    this.load.spritesheet("bullet", "assets/bullet.png", {
+      frameWidth: 16,
+      frameHeight: 9,
+    });
+    this.load.spritesheet("ship", "assets/ship.png", {
+      frameWidth: 24,
+      frameHeight: 24,
+    });
     this.load.spritesheet("exhaust", "assets/exhaust.png", {
       frameWidth: 13,
       frameHeight: 13,
@@ -80,15 +86,23 @@ class GameScene extends Phaser.Scene {
       bullet.kill();
       enemy.hit();
     });
+    this.physics.add.collider(player, enemies, (player, enemy) => {
+      player.kill();
+    });
   }
 
   create() {
     // Create groups
     this.refs.bullets = this.physics.add.group({
-      classType: Bullet,
+      classType: Bullet1,
       maxSize: 30,
       runChildUpdate: true,
+      width: 40,
+      hitArea: new Phaser.Geom.Rectangle(0, 0, 1, 1),
     });
+
+    console.log(this.refs.bullets);
+
     this.refs.enemies = this.physics.add.group();
 
     // Create input

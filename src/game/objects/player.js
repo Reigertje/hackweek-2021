@@ -3,8 +3,22 @@ import * as Phaser from "phaser";
 class Player extends Phaser.GameObjects.Container {
   constructor(scene, x, y) {
     super(scene, x, y);
+    this.alive = true;
+    this.ship = scene.add.sprite(0, 0, "ship");
 
-    this.ship = scene.add.image(0, 0, "ship");
+    scene.anims.create({
+      key: "ship_normal",
+      frames: scene.anims.generateFrameNumbers("ship", { start: 0, end: 0 }),
+      frameRate: 1,
+      repeat: -1,
+    });
+
+    scene.anims.create({
+      key: "ship_explode",
+      frames: scene.anims.generateFrameNumbers("ship", { start: 1, end: 5 }),
+      frameRate: 12,
+      repeat: 1,
+    });
 
     scene.anims.create({
       key: "normal",
@@ -28,6 +42,7 @@ class Player extends Phaser.GameObjects.Container {
   }
 
   preUpdate() {
+    if (!this.alive) return;
     const scene = this.scene;
     const { cursors, bullets } = scene.refs;
 
@@ -67,6 +82,15 @@ class Player extends Phaser.GameObjects.Container {
       if (bullet) {
         bullet.fire(this);
       }
+    }
+  }
+
+  kill() {
+    if (this.alive) {
+      this.ship.play({ key: "ship_explode", repeat: 0, hideOnComplete: true });
+      this.body.stop();
+      this.exhaust.setVisible(false);
+      this.alive = false;
     }
   }
 }
