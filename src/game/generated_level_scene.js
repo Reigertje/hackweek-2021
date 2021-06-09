@@ -7,6 +7,8 @@ import Player from "./objects/player";
 import Mosquito from "./objects/mosquito";
 
 import Bullet1 from "./objects/bullet1";
+import Portal from "./objects/portal";
+import PowerUp, { SHIELD } from "./objects/powerup";
 
 import LevelScene from "./level_scene";
 
@@ -40,6 +42,14 @@ class GeneratedLevelScene extends LevelScene {
       frameWidth: 24,
       frameHeight: 24,
     });
+    this.load.spritesheet("portal", "assets/portal.png", {
+      frameWidth: 50,
+      frameHeight: 50,
+    });
+  }
+
+  spawnPowerUp(x, y) {
+    this.add.existing(new PowerUp(this, x, y, SHIELD));
   }
 
   generateLevel() {
@@ -74,14 +84,19 @@ class GeneratedLevelScene extends LevelScene {
             );
             this.cameras.main.startFollow(this.refs.player);
             this.cameras.main.setZoom(2);
-          }
-          if (p.x === level.mazeWidth - 1 && p.y === level.mazeHeight - 1) {
-            this.refs.portal = this.add.sprite(x * 24, ty * 24, "enemy");
-            this.physics.world.enable(this.refs.portal);
+          } else if (
+            p.x === level.mazeWidth - 1 &&
+            p.y === level.mazeHeight - 1
+          ) {
+            this.add.existing(new Portal(this, x * 24 + 12, ty * 24 + 12));
+          } else {
+            this.spawnPowerUp(x * 24 + 12, ty * 24 + 12);
           }
         } else if (level.at(x, y) === "1" && randomInt(2) === 0) {
           const enemy = new Mosquito(this, x * 24 + 12, ty * 24 + 12);
           this.add.existing(enemy);
+        } else if (level.at(x, y) === "P" && randomInt(2) === 0) {
+          this.spawnPowerUp(x * 24 + 12, ty * 24 + 12);
         }
       }
     }
@@ -92,9 +107,10 @@ class GeneratedLevelScene extends LevelScene {
   }
 
   createColliders() {
-    const { player, tiles, enemies, bullets } = this.refs;
+    const { player, tiles, enemies, bullets, portals, powerups } = this.refs;
 
     this.physics.add.collider(player, tiles);
+
     this.physics.add.collider(bullets, tiles, (bullet, _tile) => {
       bullet.kill();
     });
@@ -105,19 +121,15 @@ class GeneratedLevelScene extends LevelScene {
       bullet.kill();
       enemy.hit(1);
     });
-    this.physics.add.collider(player, enemies, (player, enemy) => {
+    this.physics.add.overlap(player, enemies, (player, enemy) => {
       player.kill();
     });
-    this.physics.add.collider(
-      player,
-      this.refs.portal,
-      (player, portal) => {
-        this.nextLevel();
-      },
-      (player, portal) => {
-        return true;
-      }
-    );
+    this.physics.add.overlap(player, portals, (player, portal) => {
+      if (portal.body.wasTouching.none) this.nextLevel();
+    });
+    this.physics.add.overlap(player, powerups, (player, powerup) => {
+      player.pickUpPowerUp(powerup);
+    });
   }
 
   create() {
@@ -132,9 +144,9 @@ class GeneratedLevelScene extends LevelScene {
       hitArea: new Phaser.Geom.Rectangle(0, 0, 1, 1),
     });
 
-    console.log(this.refs.bullets);
-
     this.refs.enemies = this.physics.add.group();
+    this.refs.portals = this.physics.add.group();
+    this.refs.powerups = this.physics.add.group();
 
     // Create input
     this.refs.cursors = this.input.keyboard.createCursorKeys();

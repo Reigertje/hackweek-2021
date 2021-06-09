@@ -9,6 +9,16 @@ class LevelScene extends Phaser.Scene {
   preload() {
     this.textures.remove("background");
     this.load.image("background", this.props.backgroundAsset);
+
+    this.load.spritesheet("powerup", "assets/powerup.png", {
+      frameWidth: 24,
+      frameHeight: 24,
+    });
+
+    this.load.spritesheet("shield", "assets/shield.png", {
+      frameWidth: 24,
+      frameHeight: 24,
+    });
   }
 
   create() {

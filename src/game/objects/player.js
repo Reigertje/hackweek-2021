@@ -3,12 +3,27 @@ import * as Phaser from "phaser";
 class Player extends Phaser.GameObjects.Container {
   constructor(scene, x, y) {
     super(scene, x, y);
+
+    this.powers = {
+      boost: false,
+      rocket: false,
+      shield: false,
+      range: 1,
+    };
+
     this.alive = true;
     this.ship = scene.add.sprite(0, 0, "ship");
 
     scene.anims.create({
       key: "ship_normal",
       frames: scene.anims.generateFrameNumbers("ship", { start: 0, end: 0 }),
+      frameRate: 1,
+      repeat: -1,
+    });
+
+    scene.anims.create({
+      key: "ship_shielded",
+      frames: scene.anims.generateFrameNumbers("ship", { start: 6, end: 6 }),
       frameRate: 1,
       repeat: -1,
     });
@@ -83,6 +98,21 @@ class Player extends Phaser.GameObjects.Container {
         bullet.fire(this);
       }
     }
+
+    if (this.powers.shield) {
+      this.ship.play({ key: "ship_shielded" });
+    }
+  }
+
+  pickUpPowerUp(powerup) {
+    this.powers = {
+      boost: this.powers.boost || powerup.powers.boost,
+      rocket: this.powers.rocket || powerup.powers.rocket,
+      shield: this.powers.shield || powerup.powers.shield,
+      range: this.range + (powerup.powers.range || 0),
+    };
+
+    powerup.destroy();
   }
 
   kill() {
