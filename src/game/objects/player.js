@@ -131,8 +131,8 @@ class Player extends Phaser.GameObjects.Container {
   kill() {
     if (this.alive) {
       this.scene.cameras.main.shake(1000, 0.001);
-      this.scene.respawn();
-
+      // this.scene.respawn();
+      this.scene.restartGame();
       this.ship.play({ key: "ship_explode", repeat: 0, hideOnComplete: true });
       this.body.stop();
       this.exhaust.setVisible(false);
