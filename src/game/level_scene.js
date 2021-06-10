@@ -1,6 +1,7 @@
 import * as Phaser from "phaser";
 
 import Bullet from "./objects/bullet1";
+import Rocket from "./objects/rocket";
 import Player from "./objects/player";
 import Mosquito from "./objects/mosquito";
 import Portal from "./objects/portal";
@@ -141,7 +142,7 @@ class LevelScene extends Phaser.Scene {
   }
 
   addDefaultColliders() {
-    const { player, tiles, enemies, bullets, portals, powerups } = this.refs;
+    const { player, tiles, enemies, bullets, portals, powerups, rockets } = this.refs;
 
     this.physics.add.collider(player, tiles, (player, tile) => {
       player.kill();
@@ -150,6 +151,10 @@ class LevelScene extends Phaser.Scene {
     this.physics.add.collider(bullets, tiles, (bullet, _tile) => {
       bullet.kill();
     });
+    this.physics.add.collider(rockets, tiles, (rocket, _tile) => {
+      rocket.kill();
+    });
+
     this.physics.add.collider(enemies, tiles, (enemy, _) => {
       enemy.turn();
     });
@@ -158,6 +163,10 @@ class LevelScene extends Phaser.Scene {
         bullet.kill();
         enemy.hit(1);
       }
+    });
+    this.physics.add.collider(enemies, bullets, (enemy, rocket) => {
+      rocket.kill();
+      enemy.hit(5);
     });
     this.physics.add.overlap(player, enemies, (player, enemy) => {
       player.kill();
@@ -180,6 +189,11 @@ class LevelScene extends Phaser.Scene {
     // Create physics groups
     this.refs.bullets = this.physics.add.group({
       classType: Bullet,
+      maxSize: 30,
+      runChildUpdate: true,
+    });
+    this.refs.rockets = this.physics.add.group({
+      classType: Rocket,
       maxSize: 30,
       runChildUpdate: true,
     });

@@ -59,7 +59,7 @@ class Player extends Phaser.GameObjects.Container {
   preUpdate() {
     if (!this.alive) return;
     const scene = this.scene;
-    const { cursors, bullets } = scene.refs;
+    const { cursors, bullets, rockets } = scene.refs;
 
     scene.physics.velocityFromRotation(
       this.rotation,
@@ -93,9 +93,16 @@ class Player extends Phaser.GameObjects.Container {
     }
 
     if (Phaser.Input.Keyboard.JustDown(cursors.space)) {
-      const bullet = bullets.get();
-      if (bullet) {
-        bullet.fire(this);
+      if (this.powers.rocket) {
+        const rocket = rockets.get();
+        if (rocket) {
+          rocket.fire(this);
+        }
+      } else {
+        const bullet = bullets.get();
+        if (bullet) {
+          bullet.fire(this);
+        }  
       }
     }
 
