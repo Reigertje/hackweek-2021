@@ -203,6 +203,7 @@ class LevelScene extends Phaser.Scene {
   }
 
   create() {
+    this.cutscene = false;
     this.cameras.main.setZoom(2);
     // Set background
     const bg = this.add.image(320, 180, "background");
@@ -264,12 +265,12 @@ class LevelScene extends Phaser.Scene {
 
   restartGame() {
     this.time.delayedCall(
-        3000,
-        () => {
-          this.scene.start('level_1');
-        },
-        [],
-        this
+      3000,
+      () => {
+        this.scene.start("level_1");
+      },
+      [],
+      this
     );
   }
 
