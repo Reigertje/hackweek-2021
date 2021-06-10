@@ -6,7 +6,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
 
     this.anims.create({
       key: "rocket",
-      frames: this.anims.generateFrameNumbers("rocket", { start: 0, end: 0 }),
+      frames: this.anims.generateFrameNumbers("rocket", { start: 0, end: 4 }),
       frameRate: 8,
       repeat: -1,
     });
@@ -18,7 +18,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
       repeat: -1,
     });
 
-    this.speed = 75;
+    this.speed = 100;
   }
 
   fire(origin) {

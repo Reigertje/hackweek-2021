@@ -164,7 +164,7 @@ class LevelScene extends Phaser.Scene {
         enemy.hit(1);
       }
     });
-    this.physics.add.collider(enemies, bullets, (enemy, rocket) => {
+    this.physics.add.collider(enemies, rockets, (enemy, rocket) => {
       rocket.kill();
       enemy.hit(5);
     });
