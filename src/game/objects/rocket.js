@@ -12,8 +12,8 @@ class Rocket extends Phaser.GameObjects.Sprite {
     });
 
     this.anims.create({
-      key: "bullet_explode",
-      frames: this.anims.generateFrameNumbers("bullet", { start: 4, end: 8 }),
+      key: "rocket_explode",
+      frames: this.anims.generateFrameNumbers("rocket", { start: 5, end: 11 }),
       frameRate: 12,
       repeat: -1,
     });
@@ -46,7 +46,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
   }
 
   isExploding() {
-    return this.anims.currentAnim.key === "bullet_explode";
+    return this.anims.currentAnim.key === "rocket_explode";
   }
 
   animationFinished() {
@@ -68,7 +68,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
   }
 
   kill() {
-    this.play({ key: "bullet_explode", repeat: 1 });
+    this.play({ key: "rocket_explode", repeat: 1 });
     this.body.stop();
   }
 }
