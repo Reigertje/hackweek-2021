@@ -262,6 +262,17 @@ class LevelScene extends Phaser.Scene {
     }
   }
 
+  restartGame() {
+    this.time.delayedCall(
+        3000,
+        () => {
+          this.scene.start('level_1');
+        },
+        [],
+        this
+    );
+  }
+
   selectRandomPowerup() {
     var items = [SHIELD, ROCKET];
     return items[Math.floor(Math.random() * items.length)];
