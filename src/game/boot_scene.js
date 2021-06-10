@@ -1,5 +1,4 @@
 import * as Phaser from "phaser";
-import GameScene from "./game_scene";
 
 class BootScene extends Phaser.Scene {
   constructor() {
@@ -15,19 +14,20 @@ class BootScene extends Phaser.Scene {
   }
 
   create() {
-    const titleAnimation = this.anims.create({
+    this.anims.create({
       key: "play",
       frames: this.anims.generateFrameNumbers("title"),
       frameRate: 12,
     });
 
-    const sprite = this.add.sprite(320, 320, "title");
+    const sprite = this.add.sprite(320, 180, "title");
+    sprite.scale = 0.5;
     sprite.play({ key: "play" });
     this.add.text(0, 0, "Click to Start Game");
     this.input.once(
       "pointerdown",
       function () {
-        this.scene.switch("game");
+        this.scene.switch("level_1");
       },
       this
     );

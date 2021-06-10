@@ -104,8 +104,8 @@ class LevelScene extends Phaser.Scene {
 
     map.setCollision([0, 1, 2, 3], true, false, "tiles", true);
 
-    this.cameras.main.setBounds(0, 0, level.width*24, level.height*24);
-    this.physics.world.setBounds(0,0, level.width*24, level.height*24);
+    this.cameras.main.setBounds(0, 0, level.width * 24, level.height * 24);
+    this.physics.world.setBounds(0, 0, level.width * 24, level.height * 24);
 
     return tiles;
   }
@@ -152,7 +152,15 @@ class LevelScene extends Phaser.Scene {
   }
 
   addDefaultColliders() {
-    const { player, tiles, enemies, bullets, portals, powerups, rockets } = this.refs;
+    const {
+      player,
+      tiles,
+      enemies,
+      bullets,
+      portals,
+      powerups,
+      rockets,
+    } = this.refs;
 
     this.physics.add.collider(player, tiles, (player, tile) => {
       player.damageOrKill();
@@ -184,7 +192,7 @@ class LevelScene extends Phaser.Scene {
         enemy.hit(1);
       } else {
         player.damageOrKill();
-      }        
+      }
     });
     this.physics.add.overlap(player, portals, (player, portal) => {
       if (portal.body.wasTouching.none) this.nextLevel();
@@ -196,7 +204,9 @@ class LevelScene extends Phaser.Scene {
 
   create() {
     // Set background
-    this.add.image(320, 180, "background").setScrollFactor(0);
+    const bg = this.add.image(320, 180, "background");
+    bg.setScrollFactor(0);
+    bg.setDepth(-100);
 
     // Create input
     this.refs.cursors = this.input.keyboard.createCursorKeys();

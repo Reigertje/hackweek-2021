@@ -1,5 +1,7 @@
 import * as Phaser from "phaser";
 
+import BootScene from "./boot_scene";
+
 import levels from "./levels";
 
 class Game extends Phaser.Game {
@@ -23,7 +25,7 @@ class Game extends Phaser.Game {
         // antialias: false,
       },
       parent: "gameContainer",
-      scene: [...levels],
+      scene: [BootScene, ...levels],
     };
     super(config);
     this.react = react;

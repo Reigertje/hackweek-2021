@@ -102,7 +102,7 @@ class Player extends Phaser.GameObjects.Container {
         const bullet = bullets.get();
         if (bullet) {
           bullet.fire(this);
-        }  
+        }
       }
     }
 
@@ -115,7 +115,7 @@ class Player extends Phaser.GameObjects.Container {
     this.powers = {
       boost: this.powers.boost || powerup.powers.boost,
       rocket: this.powers.rocket || powerup.powers.rocket,
-      num_rockets: (this.powers.rocket || powerup.powers.rocket) ? 5 : 0,
+      num_rockets: this.powers.rocket || powerup.powers.rocket ? 5 : 0,
       shield: this.powers.shield || powerup.powers.shield,
       range: this.range + (powerup.powers.range || 0),
     };
@@ -126,6 +126,10 @@ class Player extends Phaser.GameObjects.Container {
   kill() {
     if (this.alive) {
       this.scene.cameras.main.shake(1000, 0.001);
+      this.scene.add
+        .text(320, 180, "GAME OVER")
+        .setScrollFactor(0)
+        .setOrigin(0.5, 0.5);
       this.scene.respawn();
 
       this.ship.play({ key: "ship_explode", repeat: 0, hideOnComplete: true });
