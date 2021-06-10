@@ -11,6 +11,7 @@ export const ROCKET = {
   asset: "rocket",
   powers: {
     rocket: true,
+    num_rockets: 5
   },
 };
 

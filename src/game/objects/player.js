@@ -7,6 +7,7 @@ class Player extends Phaser.GameObjects.Container {
     this.powers = {
       boost: false,
       rocket: false,
+      num_rockets: 0,
       shield: false,
       range: 1,
     };
@@ -48,6 +49,9 @@ class Player extends Phaser.GameObjects.Container {
 
     scene.physics.world.enable(this);
 
+    this.body.setCollideWorldBounds(true);
+    this.body.onWorldBounds = true;
+
     this.body.setDamping(true);
     this.body.setDrag(0.5);
     this.body.setMaxVelocity(50);
@@ -59,7 +63,7 @@ class Player extends Phaser.GameObjects.Container {
   preUpdate() {
     if (!this.alive) return;
     const scene = this.scene;
-    const { cursors, bullets } = scene.refs;
+    const { cursors, bullets, rockets } = scene.refs;
 
     if (cursors.up.isDown) {
       scene.physics.velocityFromRotation(
@@ -88,9 +92,17 @@ class Player extends Phaser.GameObjects.Container {
     }
 
     if (Phaser.Input.Keyboard.JustDown(cursors.space)) {
-      const bullet = bullets.get();
-      if (bullet) {
-        bullet.fire(this);
+      if (this.powers.rocket && this.powers.num_rockets > 0) {
+        const rocket = rockets.get();
+        if (rocket) {
+          rocket.fire(this);
+          this.powers.num_rockets--;
+        }
+      } else {
+        const bullet = bullets.get();
+        if (bullet) {
+          bullet.fire(this);
+        }  
       }
     }
 
@@ -103,6 +115,7 @@ class Player extends Phaser.GameObjects.Container {
     this.powers = {
       boost: this.powers.boost || powerup.powers.boost,
       rocket: this.powers.rocket || powerup.powers.rocket,
+      num_rockets: (this.powers.rocket || powerup.powers.rocket) ? 5 : 0,
       shield: this.powers.shield || powerup.powers.shield,
       range: this.range + (powerup.powers.range || 0),
     };
@@ -120,6 +133,19 @@ class Player extends Phaser.GameObjects.Container {
       this.exhaust.setVisible(false);
       this.alive = false;
     }
+  }
+
+  hasShield() {
+    return this.powers.shield;
+  }
+
+  destroyShield() {
+    this.powers.shield = false;
+    this.ship.play("ship_normal");
+  }
+
+  damageOrKill() {
+    this.hasShield() ? this.destroyShield() : this.kill();
   }
 }
 

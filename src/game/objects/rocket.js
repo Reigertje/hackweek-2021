@@ -1,29 +1,29 @@
 import * as Phaser from "phaser";
 
-class Bullet1 extends Phaser.GameObjects.Sprite {
+class Rocket extends Phaser.GameObjects.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, "bullet");
+    super(scene, x, y, "rocket");
 
     this.anims.create({
-      key: "bullet_normal",
-      frames: this.anims.generateFrameNumbers("bullet", { start: 0, end: 3 }),
+      key: "rocket",
+      frames: this.anims.generateFrameNumbers("rocket", { start: 0, end: 4 }),
       frameRate: 8,
       repeat: -1,
     });
 
     this.anims.create({
-      key: "bullet_explode",
-      frames: this.anims.generateFrameNumbers("bullet", { start: 4, end: 8 }),
+      key: "rocket_explode",
+      frames: this.anims.generateFrameNumbers("rocket", { start: 5, end: 11 }),
       frameRate: 12,
       repeat: -1,
     });
 
-    this.speed = 75;
+    this.speed = 100;
   }
 
   fire(origin) {
-    this.lifespan = 400;
-    this.play({ key: "bullet_normal", repeat: -1 });
+    this.lifespan = 1000;
+    this.play({ key: "rocket", repeat: -1 });
     this.setActive(true);
     this.setVisible(true);
     this.setAngle(origin.body.rotation);
@@ -45,12 +45,8 @@ class Bullet1 extends Phaser.GameObjects.Sprite {
     this.body.velocity.y *= 2;
   }
 
-  isLethal() {
-    return this.active && !this.isExploding();
-  }
-
   isExploding() {
-    return this.anims.currentAnim.key === "bullet_explode";
+    return this.anims.currentAnim.key === "rocket_explode";
   }
 
   animationFinished() {
@@ -63,7 +59,6 @@ class Bullet1 extends Phaser.GameObjects.Sprite {
     if (this.active && this.isExploding() && this.animationFinished()) {
       this.setActive(false);
       this.setVisible(false);
-      this.destroy();
       return;
     }
 
@@ -73,9 +68,9 @@ class Bullet1 extends Phaser.GameObjects.Sprite {
   }
 
   kill() {
-    this.play({ key: "bullet_explode", repeat: 1 });
+    this.play({ key: "rocket_explode", repeat: 1 });
     this.body.stop();
   }
 }
 
-export default Bullet1;
+export default Rocket;
