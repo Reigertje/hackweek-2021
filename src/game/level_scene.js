@@ -120,8 +120,6 @@ class LevelScene extends Phaser.Scene {
           this.refs.player = this.add.existing(
             new Player(this, levelX, levelY)
           );
-          this.cameras.main.startFollow(this.refs.player);
-          this.cameras.main.setZoom(2);
         } else if (isExit) {
           this.add.existing(new Portal(this, levelX, levelY));
         } else {
@@ -141,10 +139,12 @@ class LevelScene extends Phaser.Scene {
         );
         break;
       case "M":
-        this.add.existing(new MantisMan(this, levelX, levelY));
+        this.refs.boss = this.add.existing(new MantisMan(this, levelX, levelY));
         break;
       case "S":
-        this.add.existing(new BigSpider(this, levelX, levelY + 36));
+        this.refs.boss = this.add.existing(
+          new BigSpider(this, levelX, levelY + 36)
+        );
         break;
       default:
         break;
@@ -203,6 +203,7 @@ class LevelScene extends Phaser.Scene {
   }
 
   create() {
+    this.cameras.main.setZoom(2);
     // Set background
     const bg = this.add.image(320, 180, "background");
     bg.setScrollFactor(0);

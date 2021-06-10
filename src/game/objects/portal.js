@@ -18,6 +18,8 @@ class Portal extends Phaser.GameObjects.Sprite {
 
     this.body.setCircle(12, 13, 13);
 
+    this.setDepth(-10);
+
     scene.refs.portals.add(this);
   }
 }

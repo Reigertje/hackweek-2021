@@ -50,6 +50,7 @@ class BigSpider extends Enemy {
   }
 
   preUpdate(time, delta) {
+    if (this.scene.cutscene) return;
     this.shoot_interval -= delta;
 
     if (this.shoot_interval <= 0 && this.canShootAnotherBall()) {
