@@ -1,7 +1,4 @@
-import * as Phaser from "phaser";
 import LevelGenerator from "./gen/level_generator";
-
-import { randomInt } from "./gen/random";
 
 import LevelScene from "./level_scene";
 
