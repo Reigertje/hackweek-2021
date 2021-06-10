@@ -7,6 +7,13 @@ export const SHIELD = {
   },
 };
 
+export const ROCKET = {
+  asset: "rocket",
+  powers: {
+    rocket: true,
+  },
+};
+
 class PowerUp extends Phaser.GameObjects.Container {
   constructor(scene, x, y, props) {
     super(scene, x, y);

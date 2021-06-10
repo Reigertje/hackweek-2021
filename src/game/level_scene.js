@@ -5,7 +5,7 @@ import Player from "./objects/player";
 import Mosquito from "./objects/mosquito";
 import Portal from "./objects/portal";
 import MantisMan from "./objects/mantisman";
-import PowerUp, { SHIELD } from "./objects/powerup";
+import PowerUp, { SHIELD, ROCKET } from "./objects/powerup";
 
 import { randomInt } from "./gen/random";
 
@@ -26,6 +26,11 @@ class LevelScene extends Phaser.Scene {
     });
 
     this.load.spritesheet("shield", "assets/shield.png", {
+      frameWidth: 24,
+      frameHeight: 24,
+    });
+
+    this.load.spritesheet("rocket", "assets/rocket.png", {
       frameWidth: 24,
       frameHeight: 24,
     });
@@ -115,7 +120,8 @@ class LevelScene extends Phaser.Scene {
         } else if (isExit) {
           this.add.existing(new Portal(this, levelX, levelY));
         } else {
-          this.add.existing(new PowerUp(this, levelX, levelY, SHIELD));
+
+          this.add.existing(new PowerUp(this, levelX, levelY, this.selectRandomPowerup()));
         }
         break;
       case "1":
@@ -124,7 +130,7 @@ class LevelScene extends Phaser.Scene {
         }
         break;
       case "P":
-        this.add.existing(new PowerUp(this, levelX, levelY, SHIELD));
+        this.add.existing(new PowerUp(this, levelX, levelY, this.selectRandomPowerup()));
         break;
       case "M":
         this.add.existing(new MantisMan(this, levelX, levelY));
@@ -208,6 +214,11 @@ class LevelScene extends Phaser.Scene {
       // TODO last level completed?
       console.log("you won!");
     }
+  }
+
+  selectRandomPowerup() {
+    var items = [SHIELD, ROCKET];
+    return items[Math.floor(Math.random() * items.length)];
   }
 }
 
