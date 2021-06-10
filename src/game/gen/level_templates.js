@@ -6,10 +6,10 @@ const TEMPLATE_WIDTH = 11;
 const TEMPLATE_HEIGHT = 7;
 
 class Template extends Grid {
-  constructor(data) {
+  constructor(width, height, data) {
     super(
-      TEMPLATE_WIDTH,
-      TEMPLATE_HEIGHT,
+      width,
+      height,
       data
         .map((row) => row.split(""))
         .reverse()
@@ -20,8 +20,16 @@ class Template extends Grid {
 
   horizontalMirror() {
     return new Template(
+      this.width,
+      this.height,
       this.initData.map((row) => row.split("").reverse().join(""))
     );
+  }
+}
+
+class DefaultTemplate extends Template {
+  constructor(data) {
+    super(TEMPLATE_WIDTH, TEMPLATE_HEIGHT, data);
   }
 }
 
@@ -32,7 +40,7 @@ const TEMPLATES = {
     TYPE 1: EXIT ON TOP
 
     **/
-    new Template([
+    new DefaultTemplate([
       "####...####",
       "#.........#",
       "#.........#",
@@ -41,7 +49,7 @@ const TEMPLATES = {
       "#.........#",
       "###########",
     ]),
-    new Template([
+    new DefaultTemplate([
       "####...####",
       "#.........#",
       "#..1......#",
@@ -50,7 +58,7 @@ const TEMPLATES = {
       "#.........#",
       "###########",
     ]),
-    new Template([
+    new DefaultTemplate([
       "...........",
       ".....C.....",
       "..####....#",
@@ -66,7 +74,7 @@ const TEMPLATES = {
     TYPE 2: EXIT ON LEFT
 
     **/
-    new Template([
+    new DefaultTemplate([
       "###########",
       "#.........#",
       "1......C..#",
@@ -75,7 +83,7 @@ const TEMPLATES = {
       "#.........#",
       "###########",
     ]),
-    new Template([
+    new DefaultTemplate([
       "...########",
       "....#.....#",
       "....#..C..#",
@@ -91,7 +99,7 @@ const TEMPLATES = {
     TYPE 3: EXIT ON TOP + LEFT
 
     **/
-    new Template([
+    new DefaultTemplate([
       "####...####",
       "#..1......#",
       "..........#",
@@ -100,7 +108,7 @@ const TEMPLATES = {
       "#.........#",
       "###########",
     ]),
-    new Template([
+    new DefaultTemplate([
       ".......####",
       "..C....1..#",
       ".....#....#",
@@ -116,7 +124,7 @@ const TEMPLATES = {
     TYPE 4: EXIT ON BOTTOM
 
     **/
-    new Template([
+    new DefaultTemplate([
       "###########",
       "#P........#",
       "####.1....#",
@@ -125,7 +133,7 @@ const TEMPLATES = {
       "#.........#",
       "####...####",
     ]),
-    new Template([
+    new DefaultTemplate([
       "###########",
       "#.......P.#",
       "#.C..1....#",
@@ -141,7 +149,7 @@ const TEMPLATES = {
     TYPE 5: EXIT ON TOP + BOTTOM
 
     **/
-    new Template([
+    new DefaultTemplate([
       "####...####",
       "#.........#",
       "#.......###",
@@ -150,7 +158,7 @@ const TEMPLATES = {
       "#.........#",
       "####...####",
     ]),
-    new Template([
+    new DefaultTemplate([
       "...........",
       "...........",
       "..........#",
@@ -159,7 +167,7 @@ const TEMPLATES = {
       "#.........P",
       "#..........",
     ]),
-    new Template([
+    new DefaultTemplate([
       "####...####",
       "##.......##",
       "####..##.##",
@@ -175,7 +183,7 @@ const TEMPLATES = {
     TYPE 6: EXIT ON LEFT + BOTTOM
 
     **/
-    new Template([
+    new DefaultTemplate([
       "###########",
       "#.........#",
       ".......C..#",
@@ -184,7 +192,7 @@ const TEMPLATES = {
       "#P........#",
       "####...####",
     ]),
-    new Template([
+    new DefaultTemplate([
       "###########",
       "#....P....#",
       "...##..C..#",
@@ -200,7 +208,7 @@ const TEMPLATES = {
     TYPE 7: EXIT ON TOP + LEFT + BOTTOM
 
     **/
-    new Template([
+    new DefaultTemplate([
       "####...####",
       "#......1..#",
       "1.........#",
@@ -209,7 +217,7 @@ const TEMPLATES = {
       "#.......P.#",
       "####...####",
     ]),
-    new Template([
+    new DefaultTemplate([
       "####...####",
       "##....#####",
       "....#######",
@@ -226,7 +234,7 @@ const TEMPLATES = {
     TYPE 10: EXIT ON LEFT + RIGHT
 
     **/
-    new Template([
+    new DefaultTemplate([
       "###########",
       "#......C..#",
       ".....1.....",
@@ -235,7 +243,7 @@ const TEMPLATES = {
       "#.........#",
       "###########",
     ]),
-    new Template([
+    new DefaultTemplate([
       "###########",
       "#....C....#",
       "....###....",
@@ -244,7 +252,7 @@ const TEMPLATES = {
       "#.1.......#",
       "###########",
     ]),
-    new Template([
+    new DefaultTemplate([
       "..#####....",
       "...........",
       "...........",
@@ -253,7 +261,7 @@ const TEMPLATES = {
       "#.........#",
       "##...##....",
     ]),
-    new Template([
+    new DefaultTemplate([
       "###########",
       "####...####",
       ".....###1..",
@@ -265,7 +273,7 @@ const TEMPLATES = {
   ],
   11: [
     // EXIT ON TOP, LEFT AND RIGHT
-    new Template([
+    new DefaultTemplate([
       "####...####",
       "#.........#",
       "1..........",
@@ -278,7 +286,7 @@ const TEMPLATES = {
   // 12 and 13 can be mirrored from 6, 7
   14: [
     // EXIT ON LEFT, RIGHT AND BOTTOM
-    new Template([
+    new DefaultTemplate([
       "###########",
       "#.......1.#",
       "...........",
@@ -290,7 +298,7 @@ const TEMPLATES = {
   ],
   15: [
     // EXIT ON ALL SIDES
-    new Template([
+    new DefaultTemplate([
       "####...####",
       "#....1....#",
       "...........",
@@ -345,4 +353,4 @@ class LevelTemplates {
   }
 }
 
-export default LevelTemplates;
+export { LevelTemplates as default, Template };

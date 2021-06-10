@@ -19,6 +19,27 @@ class LevelScene extends Phaser.Scene {
       frameWidth: 24,
       frameHeight: 24,
     });
+
+    this.load.spritesheet("bullet", "assets/bullet.png", {
+      frameWidth: 16,
+      frameHeight: 9,
+    });
+    this.load.spritesheet("ship", "assets/ship.png", {
+      frameWidth: 24,
+      frameHeight: 24,
+    });
+    this.load.spritesheet("exhaust", "assets/exhaust.png", {
+      frameWidth: 13,
+      frameHeight: 13,
+    });
+
+    this.textures.remove("tiles");
+    this.load.image("tiles", this.props.tilesAsset);
+
+    this.load.spritesheet("portal", "assets/portal.png", {
+      frameWidth: 50,
+      frameHeight: 50,
+    });
   }
 
   create() {

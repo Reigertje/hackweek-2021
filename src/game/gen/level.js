@@ -30,6 +30,21 @@ class Level extends Grid {
     }
     return str;
   }
+
+  loadTemplate(template) {
+    if (
+      template.width !== this.templateWidth ||
+      template.height !== this.templateHeight
+    ) {
+      throw new Error("template dimensions don't match");
+    }
+
+    for (let y = 0; y < template.height; ++y) {
+      for (let x = 0; x < template.width; ++x) {
+        this.set(x, y, template.at(x, y));
+      }
+    }
+  }
 }
 
 export default Level;

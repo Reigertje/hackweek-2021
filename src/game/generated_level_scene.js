@@ -21,30 +21,9 @@ class GeneratedLevelScene extends LevelScene {
   preload() {
     super.preload();
 
-    this.textures.remove("tiles");
-    this.load.image("tiles", this.props.tilesAsset);
-
-    this.load.image("enemy", "assets/enemy.png");
-
-    this.load.spritesheet("bullet", "assets/bullet.png", {
-      frameWidth: 16,
-      frameHeight: 9,
-    });
-    this.load.spritesheet("ship", "assets/ship.png", {
-      frameWidth: 24,
-      frameHeight: 24,
-    });
-    this.load.spritesheet("exhaust", "assets/exhaust.png", {
-      frameWidth: 13,
-      frameHeight: 13,
-    });
     this.load.spritesheet("midge", "assets/midge_enemy.png", {
       frameWidth: 24,
       frameHeight: 24,
-    });
-    this.load.spritesheet("portal", "assets/portal.png", {
-      frameWidth: 50,
-      frameHeight: 50,
     });
   }
 
