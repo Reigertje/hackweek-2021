@@ -147,9 +147,11 @@ class LevelScene extends Phaser.Scene {
     this.physics.add.collider(enemies, tiles, (enemy, _) => {
       enemy.turn();
     });
-    this.physics.add.collider(enemies, bullets, (enemy, bullet) => {
-      bullet.kill();
-      enemy.hit(1);
+    this.physics.add.overlap(enemies, bullets, (enemy, bullet) => {
+      if (bullet.isLethal()) {
+        bullet.kill();
+        enemy.hit(1);
+      }
     });
     this.physics.add.overlap(player, enemies, (player, enemy) => {
       player.kill();
@@ -185,6 +187,19 @@ class LevelScene extends Phaser.Scene {
   }
 
   setBackground() {}
+
+  respawn() {
+    this.time.delayedCall(
+      3000,
+      () => {
+        this.create();
+      },
+      [],
+      this
+    );
+
+    // Add timed event to call this.create()
+  }
 
   nextLevel() {
     if (this.props.next) {

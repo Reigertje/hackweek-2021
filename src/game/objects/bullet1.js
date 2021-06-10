@@ -45,6 +45,10 @@ class Bullet1 extends Phaser.GameObjects.Sprite {
     this.body.velocity.y *= 2;
   }
 
+  isLethal() {
+    return this.active && !this.isExploding();
+  }
+
   isExploding() {
     return this.anims.currentAnim.key === "bullet_explode";
   }
