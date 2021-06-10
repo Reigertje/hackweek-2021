@@ -1,7 +1,6 @@
 import Enemy from "./enemy";
 import * as Phaser from "phaser";
 import Portal from "../objects/portal";
-import { randomInt } from "../gen/random";
 
 const PROPS = {
   lives: 5,
@@ -24,8 +23,6 @@ class MantisMan extends Enemy {
 
     this.body.setMaxVelocity(30);
 
-    this.changeDirection();
-
     this.add(this.mantis);
     this.body.setBounce(1);
   }
@@ -39,6 +36,11 @@ class MantisMan extends Enemy {
   }
 
   preUpdate() {
+    if (this.scene.cutscene) {
+      this.body.setVelocity(0);
+    } else if (this.body.speed === 0) {
+      this.changeDirection();
+    }
     // if (!this.isDying()) {
     //   this.body.setVelocity(0, this.goDown ? this.max_speed : -this.max_speed);
     // } else {

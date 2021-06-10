@@ -27,6 +27,8 @@ class GeneratedLevelScene extends LevelScene {
   create() {
     super.create();
 
+    this.cameras.main.startFollow(this.refs.player);
+
     // TODO additional things?
   }
 

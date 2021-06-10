@@ -25,10 +25,10 @@ class FirstBossLevel extends BossScene {
         "#...#.......#...#",
         "#...............#",
         "#...............#",
-        "#...#.......#...#",
+        "#...#...M...#...#",
         "#...............#",
         "#...............#",
-        "#.......M.......#",
+        "#...............#",
         "#...#.......#...#",
         "#...............#",
         "#.......C.......#",
@@ -42,7 +42,7 @@ class FirstBossLevel extends BossScene {
 class SecondLevel extends GeneratedLevelScene {
   constructor() {
     super("level_2", {
-      next: null,
+      next: "second_boss",
       backgroundAsset: "assets/background_2.png",
       tilesAsset: "assets/wall2.png",
       mazeWidth: 3,
@@ -51,6 +51,29 @@ class SecondLevel extends GeneratedLevelScene {
   }
 }
 
-const LEVELS = [FirstLevel, FirstBossLevel, SecondLevel];
+class SecondBossLevel extends BossScene {
+  constructor() {
+    super("second_boss", {
+      next: null,
+      backgroundAsset: "assets/background_2.png",
+      tilesAsset: "assets/wall2.png",
+      template: new Template(17, 11, [
+        "#################",
+        "#N.N.N..S.N.N.N.#",
+        "#...............#",
+        "#...............#",
+        "#...............#",
+        "#...............#",
+        "#...............#",
+        "#.......C.......#",
+        "##.............##",
+        "###.#.###.#.#####",
+        "#################",
+      ]),
+    });
+  }
+}
+
+const LEVELS = [FirstLevel, FirstBossLevel, SecondLevel, SecondBossLevel];
 
 export default LEVELS;

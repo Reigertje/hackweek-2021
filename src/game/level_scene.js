@@ -6,6 +6,7 @@ import Player from "./objects/player";
 import Mosquito from "./objects/mosquito";
 import Portal from "./objects/portal";
 import MantisMan from "./objects/mantisman";
+import BigSpider from "./objects/bigspider";
 import PowerUp, { SHIELD, ROCKET } from "./objects/powerup";
 
 import { randomInt } from "./gen/random";
@@ -103,8 +104,8 @@ class LevelScene extends Phaser.Scene {
 
     map.setCollision([0, 1, 2, 3], true, false, "tiles", true);
 
-    this.cameras.main.setBounds(0, 0, level.width*24, level.height*24);
-    this.physics.world.setBounds(0,0, level.width*24, level.height*24);
+    this.cameras.main.setBounds(0, 0, level.width * 24, level.height * 24);
+    this.physics.world.setBounds(0, 0, level.width * 24, level.height * 24);
 
     return tiles;
   }
@@ -119,13 +120,12 @@ class LevelScene extends Phaser.Scene {
           this.refs.player = this.add.existing(
             new Player(this, levelX, levelY)
           );
-          this.cameras.main.startFollow(this.refs.player);
-          this.cameras.main.setZoom(2);
         } else if (isExit) {
           this.add.existing(new Portal(this, levelX, levelY));
         } else {
-
-          this.add.existing(new PowerUp(this, levelX, levelY, this.selectRandomPowerup()));
+          this.add.existing(
+            new PowerUp(this, levelX, levelY, this.selectRandomPowerup())
+          );
         }
         break;
       case "1":
@@ -134,10 +134,17 @@ class LevelScene extends Phaser.Scene {
         }
         break;
       case "P":
-        this.add.existing(new PowerUp(this, levelX, levelY, this.selectRandomPowerup()));
+        this.add.existing(
+          new PowerUp(this, levelX, levelY, this.selectRandomPowerup())
+        );
         break;
       case "M":
-        this.add.existing(new MantisMan(this, levelX, levelY));
+        this.refs.boss = this.add.existing(new MantisMan(this, levelX, levelY));
+        break;
+      case "S":
+        this.refs.boss = this.add.existing(
+          new BigSpider(this, levelX, levelY + 36)
+        );
         break;
       default:
         break;
@@ -145,7 +152,15 @@ class LevelScene extends Phaser.Scene {
   }
 
   addDefaultColliders() {
-    const { player, tiles, enemies, bullets, portals, powerups, rockets } = this.refs;
+    const {
+      player,
+      tiles,
+      enemies,
+      bullets,
+      portals,
+      powerups,
+      rockets,
+    } = this.refs;
 
     this.physics.add.collider(player, tiles, (player, tile) => {
       player.damageOrKill();
@@ -177,7 +192,7 @@ class LevelScene extends Phaser.Scene {
         enemy.hit(1);
       } else {
         player.damageOrKill();
-      }        
+      }
     });
     this.physics.add.overlap(player, portals, (player, portal) => {
       if (portal.body.wasTouching.none) this.nextLevel();
@@ -188,8 +203,11 @@ class LevelScene extends Phaser.Scene {
   }
 
   create() {
+    this.cameras.main.setZoom(2);
     // Set background
-    this.add.image(320, 180, "background").setScrollFactor(0);
+    const bg = this.add.image(320, 180, "background");
+    bg.setScrollFactor(0);
+    bg.setDepth(-100);
 
     // Create input
     this.refs.cursors = this.input.keyboard.createCursorKeys();
@@ -220,7 +238,7 @@ class LevelScene extends Phaser.Scene {
     this.time.delayedCall(
       3000,
       () => {
-        this.create();
+        this.scene.restart();
       },
       [],
       this
