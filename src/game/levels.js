@@ -42,7 +42,7 @@ class FirstBossLevel extends BossScene {
 class SecondLevel extends GeneratedLevelScene {
   constructor() {
     super("level_2", {
-      next: null,
+      next: "second_boss",
       backgroundAsset: "assets/background_2.png",
       tilesAsset: "assets/wall2.png",
       mazeWidth: 3,
@@ -74,6 +74,6 @@ class SecondBossLevel extends BossScene {
   }
 }
 
-const LEVELS = [SecondBossLevel, FirstLevel, FirstBossLevel, SecondLevel];
+const LEVELS = [FirstLevel, FirstBossLevel, SecondLevel, SecondBossLevel];
 
 export default LEVELS;
