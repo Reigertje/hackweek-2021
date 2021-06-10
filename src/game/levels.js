@@ -51,6 +51,29 @@ class SecondLevel extends GeneratedLevelScene {
   }
 }
 
-const LEVELS = [FirstLevel, FirstBossLevel, SecondLevel];
+class SecondBossLevel extends BossScene {
+  constructor() {
+    super("second_boss", {
+      next: null,
+      backgroundAsset: "assets/background_2.png",
+      tilesAsset: "assets/wall2.png",
+      template: new Template(17, 11, [
+        "#################",
+        "#N.N.N..S.N.N.N.#",
+        "#...............#",
+        "#...............#",
+        "#...............#",
+        "#...............#",
+        "#...............#",
+        "#.......C.......#",
+        "##.............##",
+        "###.#.###.#.#####",
+        "#################",
+      ]),
+    });
+  }
+}
+
+const LEVELS = [SecondBossLevel, FirstLevel, FirstBossLevel, SecondLevel];
 
 export default LEVELS;

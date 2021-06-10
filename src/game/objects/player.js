@@ -61,11 +61,6 @@ class Player extends Phaser.GameObjects.Container {
     const scene = this.scene;
     const { cursors, bullets } = scene.refs;
 
-    scene.physics.velocityFromRotation(
-      this.rotation,
-      50,
-      this.body.acceleration
-    );
     if (cursors.up.isDown) {
       scene.physics.velocityFromRotation(
         this.rotation,

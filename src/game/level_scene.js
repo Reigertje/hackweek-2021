@@ -5,6 +5,7 @@ import Player from "./objects/player";
 import Mosquito from "./objects/mosquito";
 import Portal from "./objects/portal";
 import MantisMan from "./objects/mantisman";
+import BigSpider from "./objects/bigspider";
 import PowerUp, { SHIELD, ROCKET } from "./objects/powerup";
 
 import { randomInt } from "./gen/random";
@@ -120,8 +121,9 @@ class LevelScene extends Phaser.Scene {
         } else if (isExit) {
           this.add.existing(new Portal(this, levelX, levelY));
         } else {
-
-          this.add.existing(new PowerUp(this, levelX, levelY, this.selectRandomPowerup()));
+          this.add.existing(
+            new PowerUp(this, levelX, levelY, this.selectRandomPowerup())
+          );
         }
         break;
       case "1":
@@ -130,10 +132,15 @@ class LevelScene extends Phaser.Scene {
         }
         break;
       case "P":
-        this.add.existing(new PowerUp(this, levelX, levelY, this.selectRandomPowerup()));
+        this.add.existing(
+          new PowerUp(this, levelX, levelY, this.selectRandomPowerup())
+        );
         break;
       case "M":
         this.add.existing(new MantisMan(this, levelX, levelY));
+        break;
+      case "S":
+        this.add.existing(new BigSpider(this, levelX, levelY + 36));
         break;
       default:
         break;
@@ -198,7 +205,7 @@ class LevelScene extends Phaser.Scene {
     this.time.delayedCall(
       3000,
       () => {
-        this.create();
+        this.scene.restart();
       },
       [],
       this

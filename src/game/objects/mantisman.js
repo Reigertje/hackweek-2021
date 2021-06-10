@@ -1,7 +1,6 @@
 import Enemy from "./enemy";
 import * as Phaser from "phaser";
 import Portal from "../objects/portal";
-import { randomInt } from "../gen/random";
 
 const PROPS = {
   lives: 5,
