@@ -59,6 +59,7 @@ class Bullet1 extends Phaser.GameObjects.Sprite {
     if (this.active && this.isExploding() && this.animationFinished()) {
       this.setActive(false);
       this.setVisible(false);
+      this.destroy();
       return;
     }
 
