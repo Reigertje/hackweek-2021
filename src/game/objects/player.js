@@ -49,6 +49,9 @@ class Player extends Phaser.GameObjects.Container {
 
     scene.physics.world.enable(this);
 
+    this.body.setCollideWorldBounds(true);
+    this.body.onWorldBounds = true;
+
     this.body.setDamping(true);
     this.body.setDrag(0.5);
     this.body.setMaxVelocity(50);

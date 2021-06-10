@@ -103,6 +103,9 @@ class LevelScene extends Phaser.Scene {
 
     map.setCollision([0, 1, 2, 3], true, false, "tiles", true);
 
+    this.cameras.main.setBounds(0, 0, level.width*24, level.height*24);
+    this.physics.world.setBounds(0,0, level.width*24, level.height*24);
+
     return tiles;
   }
 
