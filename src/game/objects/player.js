@@ -62,7 +62,9 @@ class Player extends Phaser.GameObjects.Container {
 
   preUpdate() {
     if (!this.alive) return;
-    if (this.scene.cutscene) return;
+    if (this.scene.cutscene) {
+      this.body.stop();
+    }
 
     const scene = this.scene;
     const { cursors, bullets, rockets } = scene.refs;

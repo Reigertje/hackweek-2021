@@ -30,6 +30,7 @@ class GeneratedLevelScene extends LevelScene {
     this.cameras.main.startFollow(this.refs.player);
 
     // TODO additional things?
+    this.cameras.main.flash(500, 163, 2, 255);
   }
 
   update() {}

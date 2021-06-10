@@ -10,17 +10,24 @@ class Portal extends Phaser.GameObjects.Sprite {
       frameRate: 8,
       repeat: -1,
     });
+    this.anims.create({
+      key: "portal_growing",
+      frames: this.anims.generateFrameNumbers("portal", { start: 0, end: 38 }),
+      frameRate: 16,
+      repeat: 0,
+    });
     this.speed = 75;
 
-    this.play({ key: "portal_big", repeat: -1 });
+    this.play({ key: "portal_growing", repeat: 0 });
 
-    scene.physics.world.enable(this);
-
-    this.body.setCircle(12, 13, 13);
+    this.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
+      this.play({ key: "portal_big", repeat: -1 });
+      scene.physics.world.enable(this);
+      this.body.setCircle(12, 13, 13);
+      scene.refs.portals.add(this);
+    });
 
     this.setDepth(-10);
-
-    scene.refs.portals.add(this);
   }
 }
 

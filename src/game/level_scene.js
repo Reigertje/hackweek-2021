@@ -195,7 +195,7 @@ class LevelScene extends Phaser.Scene {
       }
     });
     this.physics.add.overlap(player, portals, (player, portal) => {
-      if (portal.body.wasTouching.none) this.nextLevel();
+      if (portal.body.wasTouching.none && !this.cutscene) this.nextLevel();
     });
     this.physics.add.overlap(player, powerups, (player, powerup) => {
       player.pickUpPowerUp(powerup);
@@ -248,8 +248,14 @@ class LevelScene extends Phaser.Scene {
   }
 
   nextLevel() {
+    console.log("Hello");
     if (this.props.next) {
-      this.scene.start(this.props.next);
+      this.cutscene = true;
+
+      this.cameras.main.fade(250, 163, 2, 255, true, (cam, progress) => {
+        if (progress === 1) this.scene.start(this.props.next);
+        console.log(progress);
+      });
     } else {
       // TODO last level completed?
       console.log("you won!");
