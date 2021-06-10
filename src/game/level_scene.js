@@ -1,11 +1,12 @@
 import * as Phaser from "phaser";
 
 import Bullet from "./objects/bullet1";
+import Rocket from "./objects/rocket";
 import Player from "./objects/player";
 import Mosquito from "./objects/mosquito";
 import Portal from "./objects/portal";
 import MantisMan from "./objects/mantisman";
-import PowerUp, { SHIELD } from "./objects/powerup";
+import PowerUp, { SHIELD, ROCKET } from "./objects/powerup";
 
 import { randomInt } from "./gen/random";
 
@@ -26,6 +27,11 @@ class LevelScene extends Phaser.Scene {
     });
 
     this.load.spritesheet("shield", "assets/shield.png", {
+      frameWidth: 24,
+      frameHeight: 24,
+    });
+
+    this.load.spritesheet("rocket", "assets/rocket.png", {
       frameWidth: 24,
       frameHeight: 24,
     });
@@ -115,7 +121,8 @@ class LevelScene extends Phaser.Scene {
         } else if (isExit) {
           this.add.existing(new Portal(this, levelX, levelY));
         } else {
-          this.add.existing(new PowerUp(this, levelX, levelY, SHIELD));
+
+          this.add.existing(new PowerUp(this, levelX, levelY, this.selectRandomPowerup()));
         }
         break;
       case "1":
@@ -124,7 +131,7 @@ class LevelScene extends Phaser.Scene {
         }
         break;
       case "P":
-        this.add.existing(new PowerUp(this, levelX, levelY, SHIELD));
+        this.add.existing(new PowerUp(this, levelX, levelY, this.selectRandomPowerup()));
         break;
       case "M":
         this.add.existing(new MantisMan(this, levelX, levelY));
@@ -135,7 +142,7 @@ class LevelScene extends Phaser.Scene {
   }
 
   addDefaultColliders() {
-    const { player, tiles, enemies, bullets, portals, powerups } = this.refs;
+    const { player, tiles, enemies, bullets, portals, powerups, rockets } = this.refs;
 
     this.physics.add.collider(player, tiles, (player, tile) => {
       player.kill();
@@ -144,12 +151,22 @@ class LevelScene extends Phaser.Scene {
     this.physics.add.collider(bullets, tiles, (bullet, _tile) => {
       bullet.kill();
     });
+    this.physics.add.collider(rockets, tiles, (rocket, _tile) => {
+      rocket.kill();
+    });
+
     this.physics.add.collider(enemies, tiles, (enemy, _) => {
       enemy.turn();
     });
-    this.physics.add.collider(enemies, bullets, (enemy, bullet) => {
-      bullet.kill();
-      enemy.hit(1);
+    this.physics.add.overlap(enemies, bullets, (enemy, bullet) => {
+      if (bullet.isLethal()) {
+        bullet.kill();
+        enemy.hit(1);
+      }
+    });
+    this.physics.add.collider(enemies, rockets, (enemy, rocket) => {
+      rocket.kill();
+      enemy.hit(5);
     });
     this.physics.add.overlap(player, enemies, (player, enemy) => {
       player.kill();
@@ -175,6 +192,11 @@ class LevelScene extends Phaser.Scene {
       maxSize: 30,
       runChildUpdate: true,
     });
+    this.refs.rockets = this.physics.add.group({
+      classType: Rocket,
+      maxSize: 30,
+      runChildUpdate: true,
+    });
     this.refs.enemies = this.physics.add.group();
     this.refs.portals = this.physics.add.group();
     this.refs.powerups = this.physics.add.group();
@@ -186,6 +208,19 @@ class LevelScene extends Phaser.Scene {
 
   setBackground() {}
 
+  respawn() {
+    this.time.delayedCall(
+      3000,
+      () => {
+        this.create();
+      },
+      [],
+      this
+    );
+
+    // Add timed event to call this.create()
+  }
+
   nextLevel() {
     if (this.props.next) {
       this.scene.start(this.props.next);
@@ -193,6 +228,11 @@ class LevelScene extends Phaser.Scene {
       // TODO last level completed?
       console.log("you won!");
     }
+  }
+
+  selectRandomPowerup() {
+    var items = [SHIELD, ROCKET];
+    return items[Math.floor(Math.random() * items.length)];
   }
 }
 
