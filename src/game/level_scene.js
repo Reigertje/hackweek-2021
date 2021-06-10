@@ -145,7 +145,7 @@ class LevelScene extends Phaser.Scene {
     const { player, tiles, enemies, bullets, portals, powerups, rockets } = this.refs;
 
     this.physics.add.collider(player, tiles, (player, tile) => {
-      player.kill();
+      player.damageOrKill();
     });
 
     this.physics.add.collider(bullets, tiles, (bullet, _tile) => {
@@ -169,7 +169,12 @@ class LevelScene extends Phaser.Scene {
       enemy.hit(5);
     });
     this.physics.add.overlap(player, enemies, (player, enemy) => {
-      player.kill();
+      if (player.hasShield()) {
+        player.destroyShield();
+        enemy.hit(1);
+      } else {
+        player.damageOrKill();
+      }        
     });
     this.physics.add.overlap(player, portals, (player, portal) => {
       if (portal.body.wasTouching.none) this.nextLevel();

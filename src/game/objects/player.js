@@ -136,6 +136,19 @@ class Player extends Phaser.GameObjects.Container {
       this.alive = false;
     }
   }
+
+  hasShield() {
+    return this.powers.shield;
+  }
+
+  destroyShield() {
+    this.powers.shield = false;
+    this.ship.play("ship_normal");
+  }
+
+  damageOrKill() {
+    this.hasShield() ? this.destroyShield() : this.kill();
+  }
 }
 
 export default Player;
