@@ -51,6 +51,6 @@ class SecondLevel extends GeneratedLevelScene {
   }
 }
 
-const LEVELS = [FirstBossLevel, SecondLevel];
+const LEVELS = [FirstLevel, FirstBossLevel, SecondLevel];
 
 export default LEVELS;
