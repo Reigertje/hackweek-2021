@@ -7,6 +7,7 @@ class Player extends Phaser.GameObjects.Container {
     this.powers = {
       boost: false,
       rocket: false,
+      num_rockets: 0,
       shield: false,
       range: 1,
     };
@@ -93,10 +94,11 @@ class Player extends Phaser.GameObjects.Container {
     }
 
     if (Phaser.Input.Keyboard.JustDown(cursors.space)) {
-      if (this.powers.rocket) {
+      if (this.powers.rocket && this.powers.num_rockets > 0) {
         const rocket = rockets.get();
         if (rocket) {
           rocket.fire(this);
+          this.powers.num_rockets--;
         }
       } else {
         const bullet = bullets.get();
@@ -115,6 +117,7 @@ class Player extends Phaser.GameObjects.Container {
     this.powers = {
       boost: this.powers.boost || powerup.powers.boost,
       rocket: this.powers.rocket || powerup.powers.rocket,
+      num_rockets: (this.powers.rocket || powerup.powers.rocket) ? 5 : 0,
       shield: this.powers.shield || powerup.powers.shield,
       range: this.range + (powerup.powers.range || 0),
     };
