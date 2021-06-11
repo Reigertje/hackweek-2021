@@ -15,6 +15,7 @@ class Enemy extends Phaser.GameObjects.Container {
     this._lives -= damage;
     if (this._lives <= 0) {
       this.body.checkCollision.none = true;
+      this._isDying = true;
       this.startDying();
     }
   }

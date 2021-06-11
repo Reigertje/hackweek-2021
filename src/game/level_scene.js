@@ -8,6 +8,8 @@ import Portal from "./objects/portal";
 import MantisMan from "./objects/mantisman";
 import BigSpider from "./objects/bigspider";
 import SpiderEgg from "./objects/spideregg";
+import MothMother from "./objects/mothmother";
+import ButterFly from "./objects/butterfly";
 import PowerUp, { SHIELD, ROCKET } from "./objects/powerup";
 
 import { randomInt } from "./gen/random";
@@ -22,6 +24,8 @@ class LevelScene extends Phaser.Scene {
   preload() {
     this.textures.remove("background");
     this.load.image("background", this.props.backgroundAsset);
+    this.load.image("rocket_icon", "assets/rocket_icon.png");
+    this.load.image("shield_icon", "assets/shield_icon.png");
 
     this.load.spritesheet("powerup", "assets/powerup.png", {
       frameWidth: 24,
@@ -58,6 +62,8 @@ class LevelScene extends Phaser.Scene {
       frameWidth: 50,
       frameHeight: 50,
     });
+
+    this.refs.powerup_icons = {};
   }
 
   buildLevel() {
@@ -140,8 +146,16 @@ class LevelScene extends Phaser.Scene {
         }
         break;
       case "2":
-        if (this.scene.key === "level_2" && randomInt(2) === 0) {
+        if (
+          (this.scene.key === "level_2" || this.scene.key === "level_3") &&
+          randomInt(2) === 0
+        ) {
           this.add.existing(new SpiderEgg(this, levelX, levelY - 6));
+        }
+        break;
+      case "3":
+        if (this.scene.key === "level_3" || this.scene.key === "third_boss") {
+          this.add.existing(new ButterFly(this, levelX, levelY));
         }
         break;
       case "P":
@@ -157,6 +171,12 @@ class LevelScene extends Phaser.Scene {
           new BigSpider(this, levelX, levelY + 36)
         );
         break;
+      case "X":
+        this.refs.boss = this.add.existing(
+          new MothMother(this, levelX, levelY - 48)
+        );
+
+        break;
       default:
         break;
     }
@@ -171,6 +191,7 @@ class LevelScene extends Phaser.Scene {
       portals,
       powerups,
       rockets,
+      powerup_icons,
     } = this.refs;
 
     this.physics.add.collider(player, tiles, (player, tile) => {
@@ -193,7 +214,7 @@ class LevelScene extends Phaser.Scene {
         enemy.hit(1);
       }
     });
-    this.physics.add.collider(enemies, rockets, (enemy, rocket) => {
+    this.physics.add.overlap(enemies, rockets, (enemy, rocket) => {
       rocket.kill();
       enemy.hit(5);
     });
@@ -242,6 +263,7 @@ class LevelScene extends Phaser.Scene {
     this.refs.tiles = this.buildLevel();
 
     this.addDefaultColliders();
+    this.renderPowerUpIcons();
   }
 
   setBackground() {}
@@ -288,6 +310,40 @@ class LevelScene extends Phaser.Scene {
   selectRandomPowerup() {
     var items = [SHIELD, ROCKET];
     return items[Math.floor(Math.random() * items.length)];
+  }
+
+  renderPowerUpIcons() {
+    if (this.refs.player.powers.num_rockets && !this.rocket_icon) {
+      this.rocket_icon = this.add
+        .image(204, 108, "rocket_icon")
+        .setScrollFactor(0);
+    }
+
+    if (this.refs.player.powers.num_shields && !this.shield_icon) {
+      this.shield_icon = this.add
+        .image(230, 108, "shield_icon")
+        .setScrollFactor(0);
+    }
+  }
+
+  renderPowerUpIcon(powerup) {
+    this.renderPowerUpIcons();
+  }
+
+  destroyPowerUpIcon(powerUpName) {
+    if (powerUpName == "rocket") {
+      if (this.rocket_icon) {
+        this.rocket_icon.destroy();
+        this.rocket_icon = null;
+        console.log("destroying " + powerUpName + " icon");
+      }
+    } else if (powerUpName == "shield") {
+      if (this.shield_icon) {
+        this.shield_icon.destroy();
+        this.shield_icon = null;
+        console.log("destroying " + powerUpName + " icon");
+      }
+    }
   }
 }
 

@@ -27,6 +27,15 @@ class BossScene extends LevelScene {
       frameWidth: 12,
       frameHeight: 12,
     });
+
+    this.load.spritesheet("mothmother", "assets/mothboss.png", {
+      frameWidth: 128,
+      frameHeight: 96,
+    });
+    this.load.spritesheet("butterfly", "assets/butterfly.png", {
+      frameWidth: 9,
+      frameHeight: 9,
+    });
   }
 
   getLevel() {
