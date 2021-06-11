@@ -54,15 +54,15 @@ class SecondLevel extends GeneratedLevelScene {
 class SecondBossLevel extends BossScene {
   constructor() {
     super("second_boss", {
-      next: "third_boss",
+      next: "level_3",
       backgroundAsset: "assets/background_2.png",
       tilesAsset: "assets/wall2.png",
       template: new Template(17, 11, [
         "#################",
         "#N.N.N..S.N.N.N.#",
         "#...............#",
-        "#...............#",
-        "#...............#",
+        "#...P.......P...#",
+        "#...P.......P...#",
         "#...............#",
         "#...............#",
         "#.......C.......#",
@@ -70,6 +70,18 @@ class SecondBossLevel extends BossScene {
         "###.#.###.#.#####",
         "#################",
       ]),
+    });
+  }
+}
+
+class ThirdLevel extends GeneratedLevelScene {
+  constructor() {
+    super("level_3", {
+      next: "third_boss",
+      backgroundAsset: "assets/background_2.png",
+      tilesAsset: "assets/wall2.png",
+      mazeWidth: 3,
+      mazeHeight: 3,
     });
   }
 }
@@ -116,6 +128,7 @@ const LEVELS = [
   FirstBossLevel,
   SecondLevel,
   SecondBossLevel,
+  ThirdLevel,
   ThirdBossLevel,
 ];
 
