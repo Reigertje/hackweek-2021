@@ -1,4 +1,4 @@
-import Enemy from "./enemy";
+import Boss from "./boss";
 import * as Phaser from "phaser";
 import Portal from "../objects/portal";
 import { randomInt } from "../gen/random";
@@ -15,7 +15,7 @@ const PROPS = {
 
 const SHOOT_INTERVAL = 3000;
 
-class BigSpider extends Enemy {
+class BigSpider extends Boss {
   constructor(scene, x, y) {
     super(scene, x, y, PROPS);
 
@@ -86,8 +86,7 @@ class BigSpider extends Enemy {
 
   startDying() {
     // this.scene.add.existing(new Portal(this.scene, this.x, this.y));
-
-    this.destroy();
+    super.startDying();
   }
 }
 
