@@ -14,7 +14,13 @@ class Mosquito extends Enemy {
 
     scene.anims.create({
       key: "fly",
-      frames: scene.anims.generateFrameNumbers("midge"),
+      frames: scene.anims.generateFrameNumbers("midge", { start: 0, end: 3 }),
+      frameRate: 8,
+    });
+
+    scene.anims.create({
+      key: "midge_die",
+      frames: scene.anims.generateFrameNumbers("midge", { start: 4, end: 7 }),
       frameRate: 8,
     });
 
@@ -40,7 +46,11 @@ class Mosquito extends Enemy {
   }
 
   startDying() {
-    this.destroy();
+    this.body.stop();
+    this.midge.play({ key: "midge_die", repeat: 0 });
+    this.once("animationcomplete", () => {
+      this.destroy();
+    });
   }
 }
 
