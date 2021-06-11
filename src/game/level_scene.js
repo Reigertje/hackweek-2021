@@ -118,7 +118,12 @@ class LevelScene extends Phaser.Scene {
       case "C":
         if (isStart) {
           this.refs.player = this.add.existing(
-            new Player(this, levelX, levelY)
+            new Player(
+              this,
+              levelX,
+              levelY,
+              this.scene.settings.data.playerPowers
+            )
           );
         } else if (isExit) {
           this.add.existing(new Portal(this, levelX, levelY));
@@ -249,13 +254,14 @@ class LevelScene extends Phaser.Scene {
   }
 
   nextLevel() {
-    console.log("Hello");
     if (this.props.next) {
       this.cutscene = true;
 
       this.cameras.main.fade(250, 163, 2, 255, true, (cam, progress) => {
-        if (progress === 1) this.scene.start(this.props.next);
-        console.log(progress);
+        if (progress === 1)
+          this.scene.start(this.props.next, {
+            playerPowers: this.refs.player.powers,
+          });
       });
     } else {
       // TODO last level completed?

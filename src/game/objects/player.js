@@ -1,10 +1,10 @@
 import * as Phaser from "phaser";
 
 class Player extends Phaser.GameObjects.Container {
-  constructor(scene, x, y) {
+  constructor(scene, x, y, initialPowers) {
     super(scene, x, y);
 
-    this.powers = {
+    this.powers = initialPowers || {
       boost: false,
       rocket: false,
       num_rockets: 0,
