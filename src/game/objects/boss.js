@@ -5,7 +5,13 @@ class Boss extends Enemy {
   constructor(scene, x, y, PROPS) {
     super(scene, x, y, PROPS);
     this.lives = PROPS.lives;
-    this.hp = new HealthBar(scene, 204, 108);
+    this.hp = new HealthBar(scene, 204, 118);
+  }
+
+  preUpdate(time, delta) {
+    super.preUpdate(time, delta);
+    this.hp.update(time, delta);
+    this.hp.draw();
   }
 
   hit(damage) {
@@ -15,6 +21,7 @@ class Boss extends Enemy {
 
   startDying() {
     this.hp.bar.destroy();
+    this.hp = null;
     this.destroy();
   }
 }

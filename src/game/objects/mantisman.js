@@ -3,7 +3,7 @@ import * as Phaser from "phaser";
 import Portal from "../objects/portal";
 
 const PROPS = {
-  lives: 1,
+  lives: 4,
   width: 32,
   height: 48,
 };
@@ -35,7 +35,8 @@ class MantisMan extends Boss {
     this.body.setVelocity(direction.x, direction.y);
   }
 
-  preUpdate() {
+  preUpdate(time, delta) {
+    super.preUpdate(time, delta);
     if (this.scene.cutscene) {
       this.body.setVelocity(0);
     } else if (this.body.speed === 0) {

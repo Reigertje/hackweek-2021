@@ -8,7 +8,7 @@ import SpiderEgg from "./spideregg";
 import SpiderKid from "./spiderkid";
 
 const PROPS = {
-  lives: 1,
+  lives: 3,
   width: 16,
   height: 16,
 };
@@ -50,6 +50,7 @@ class BigSpider extends Boss {
   }
 
   preUpdate(time, delta) {
+    super.preUpdate(time, delta);
     if (this.scene.cutscene) return;
     this.shoot_interval -= delta;
 

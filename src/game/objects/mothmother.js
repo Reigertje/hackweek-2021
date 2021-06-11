@@ -121,6 +121,7 @@ class MothMother extends Boss {
   }
 
   preUpdate(time, delta) {
+    super.preUpdate(time, delta);
     if (this.scene.cutscene) {
       this.body.setVelocity(0);
     } else {
