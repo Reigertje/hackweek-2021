@@ -54,7 +54,7 @@ class SecondLevel extends GeneratedLevelScene {
 class SecondBossLevel extends BossScene {
   constructor() {
     super("second_boss", {
-      next: null,
+      next: "third_boss",
       backgroundAsset: "assets/background_2.png",
       tilesAsset: "assets/wall2.png",
       template: new Template(17, 11, [
@@ -74,6 +74,49 @@ class SecondBossLevel extends BossScene {
   }
 }
 
-const LEVELS = [FirstLevel, FirstBossLevel, SecondLevel, SecondBossLevel];
+class ThirdBossLevel extends BossScene {
+  constructor() {
+    super("third_boss", {
+      next: null,
+      backgroundAsset: "assets/background_1.png",
+      tilesAsset: "assets/tiles_1.png",
+      template: new Template(25, 25, [
+        "#########################",
+        "#.......................#",
+        "#.......................#",
+        "#.......................#",
+        "#....#..................#",
+        "#.......................#",
+        "#.......................#",
+        "#....#......C......#....#",
+        "#.......................#",
+        "#.......................#",
+        "#.......................#",
+        "#..................#....#",
+        "#....#..................#",
+        "#.......................#",
+        "#.......................#",
+        "#....#.............#....#",
+        "#.......................#",
+        "#.......................#",
+        "#.......................#",
+        "#..................#....#",
+        "#........3333333........#",
+        "#.......333333333.......#",
+        "#.......3333X3333.......#",
+        "#.......33#####33.......#",
+        "#########################",
+      ]),
+    });
+  }
+}
+
+const LEVELS = [
+  FirstLevel,
+  FirstBossLevel,
+  SecondLevel,
+  SecondBossLevel,
+  ThirdBossLevel,
+];
 
 export default LEVELS;

@@ -8,6 +8,8 @@ import Portal from "./objects/portal";
 import MantisMan from "./objects/mantisman";
 import BigSpider from "./objects/bigspider";
 import SpiderEgg from "./objects/spideregg";
+import MothMother from "./objects/mothmother";
+import ButterFly from "./objects/butterfly";
 import PowerUp, { SHIELD, ROCKET } from "./objects/powerup";
 
 import { randomInt } from "./gen/random";
@@ -144,6 +146,9 @@ class LevelScene extends Phaser.Scene {
           this.add.existing(new SpiderEgg(this, levelX, levelY - 6));
         }
         break;
+      case "3":
+        this.add.existing(new ButterFly(this, levelX, levelY));
+        break;
       case "P":
         this.add.existing(
           new PowerUp(this, levelX, levelY, this.selectRandomPowerup())
@@ -156,6 +161,12 @@ class LevelScene extends Phaser.Scene {
         this.refs.boss = this.add.existing(
           new BigSpider(this, levelX, levelY + 36)
         );
+        break;
+      case "X":
+        this.refs.boss = this.add.existing(
+          new MothMother(this, levelX, levelY - 48)
+        );
+
         break;
       default:
         break;
