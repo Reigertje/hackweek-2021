@@ -6,7 +6,7 @@ import { randomInt } from "../gen/random";
 import ButterFly from "./butterfly";
 
 const PROPS = {
-  lives: 5,
+  lives: 30,
   width: 32,
   height: 48,
 };
