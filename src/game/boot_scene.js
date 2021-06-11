@@ -27,7 +27,7 @@ class BootScene extends Phaser.Scene {
     this.input.once(
       "pointerdown",
       function () {
-        this.scene.start("third_boss");
+        this.scene.start("second_boss");
       },
       this
     );

@@ -85,7 +85,7 @@ class BigSpider extends Boss {
   turn() {}
 
   startDying() {
-    // this.scene.add.existing(new Portal(this.scene, this.x, this.y));
+    this.scene.add.existing(new Portal(this.scene, this.x, this.y));
     super.startDying();
   }
 }

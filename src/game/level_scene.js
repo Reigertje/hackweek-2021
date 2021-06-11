@@ -259,6 +259,7 @@ class LevelScene extends Phaser.Scene {
     this.refs.tiles = this.buildLevel();
 
     this.addDefaultColliders();
+    this.renderPowerUpIcons();
   }
 
   setBackground() {}
@@ -308,30 +309,33 @@ class LevelScene extends Phaser.Scene {
     return items[Math.floor(Math.random() * items.length)];
   }
 
-  renderPowerUpIcon(powerup) {
-    this.refs.powerup_icons = {
-      rocket: powerup.props.asset == 'rocket' ? true : false,
-      shield: powerup.props.asset == 'shield' ? true : false,
-    };
-
-    if (this.refs.powerup_icons.rocket && !this.rocket_icon) {
-      this.rocket_icon = this.add.image(204, 108, powerup.props.asset+'_icon').setScrollFactor(0);
+  renderPowerUpIcons() {
+    if (this.refs.player.powers.num_rockets && !this.rocket_icon) {
+      this.rocket_icon = this.add.image(204, 108, 'rocket_icon').setScrollFactor(0);
     }
 
-    if (this.refs.powerup_icons.shield) {
-     this.shield_icon = this.add.image(230, 108, powerup.props.asset+'_icon').setScrollFactor(0); 
+    if (this.refs.player.powers.num_shields && !this.shield_icon) {
+     this.shield_icon = this.add.image(230, 108, 'shield_icon').setScrollFactor(0); 
     }    
+  }
+
+  renderPowerUpIcon(powerup) {
+    this.renderPowerUpIcons();
   }
 
   destroyPowerUpIcon(powerUpName) {
     if (powerUpName == 'rocket') {
-      this.rocket_icon.destroy();
-      this.rocket_icon = null;
-      console.log('destroying ' + powerUpName + ' icon');
+      if (this.rocket_icon) {
+        this.rocket_icon.destroy();
+        this.rocket_icon = null;  
+        console.log('destroying ' + powerUpName + ' icon');
+      }
     } else if (powerUpName == 'shield') {
-      this.shield_icon.destroy();
-      this.shield_icon = null;
-      console.log('destroying ' + powerUpName + ' icon');
+      if (this.shield_icon) {
+        this.shield_icon.destroy();
+        this.shield_icon = null;
+        console.log('destroying ' + powerUpName + ' icon');  
+      }
     }
   }
 }
