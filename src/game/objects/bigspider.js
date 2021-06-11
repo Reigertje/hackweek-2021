@@ -8,7 +8,7 @@ import SpiderEgg from "./spideregg";
 import SpiderKid from "./spiderkid";
 
 const PROPS = {
-  lives: 30,
+  lives: 3,
   width: 16,
   height: 16,
 };
@@ -85,7 +85,7 @@ class BigSpider extends Enemy {
   turn() {}
 
   startDying() {
-    // this.scene.add.existing(new Portal(this.scene, this.x, this.y));
+    this.scene.add.existing(new Portal(this.scene, this.x, this.y));
 
     this.destroy();
   }

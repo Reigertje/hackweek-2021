@@ -270,8 +270,7 @@ class LevelScene extends Phaser.Scene {
           });
       });
     } else {
-      // TODO last level completed?
-      console.log("you won!");
+      this.scene.start("congratulations_scene");
     }
   }
 
@@ -279,7 +278,7 @@ class LevelScene extends Phaser.Scene {
     this.time.delayedCall(
       3000,
       () => {
-        this.scene.start("level_1");
+        this.scene.start("boot");
       },
       [],
       this
