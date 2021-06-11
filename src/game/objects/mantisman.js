@@ -5,7 +5,7 @@ import { randomInt } from "../gen/random";
 
 
 const PROPS = {
-  lives: 5,
+  lives: 10,
   width: 32,
   height: 48,
 };
