@@ -1,6 +1,5 @@
 import Enemy from "./enemy";
 import * as Phaser from "phaser";
-import { randomBool } from "../gen/random";
 
 const PROPS = {
   lives: 1,

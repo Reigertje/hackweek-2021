@@ -191,7 +191,6 @@ class LevelScene extends Phaser.Scene {
       portals,
       powerups,
       rockets,
-      powerup_icons,
     } = this.refs;
 
     this.physics.add.collider(player, tiles, (player, tile) => {

@@ -6,7 +6,6 @@ class Grid {
     if (this.data.length !== width * height) {
       throw new Error("Invalid data passed to grid.");
     }
-    // TODO some validation that the data array passed in is actually the right size
   }
 
   fill(value) {

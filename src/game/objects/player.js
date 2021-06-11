@@ -64,9 +64,7 @@ class Player extends Phaser.GameObjects.Container {
   preUpdate() {
     if (!this.alive) return;
     if (this.scene.cutscene) {
-      console.log("stopping");
       this.body.stop();
-      this.body.setVelocity(0);
     }
 
     const scene = this.scene;
@@ -105,7 +103,7 @@ class Player extends Phaser.GameObjects.Container {
           rocket.fire(this);
           this.powers.num_rockets--;
         }
-        if (this.powers.num_rockets == 0) {
+        if (this.powers.num_rockets === 0) {
           console.log("destroying rocket icon");
           this.scene.destroyPowerUpIcon("rocket");
           this.powers.rocket = false;
@@ -174,7 +172,7 @@ class Player extends Phaser.GameObjects.Container {
     if (this.powers.num_shields > 1) {
       // reduce number of shields
       this.powers.num_shields--;
-    } else if (this.powers.num_shields == 1) {
+    } else if (this.powers.num_shields === 1) {
       // only one shield left
       this.powers.num_shields--;
       this.powers.shield = false;

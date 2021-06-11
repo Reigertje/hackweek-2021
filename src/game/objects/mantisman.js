@@ -1,7 +1,6 @@
 import Boss from "./boss";
 import * as Phaser from "phaser";
 import Portal from "../objects/portal";
-import { randomInt } from "../gen/random";
 
 const PROPS = {
   lives: 1,
@@ -42,11 +41,6 @@ class MantisMan extends Boss {
     } else if (this.body.speed === 0) {
       this.changeDirection();
     }
-    // if (!this.isDying()) {
-    //   this.body.setVelocity(0, this.goDown ? this.max_speed : -this.max_speed);
-    // } else {
-    //   this.body.setVelocity(0);
-    // }
     this.mantis.setTint(0xffffff);
   }
 

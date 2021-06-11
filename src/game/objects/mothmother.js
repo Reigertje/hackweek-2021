@@ -1,7 +1,6 @@
 import Boss from "./boss";
 import * as Phaser from "phaser";
 import Portal from "../objects/portal";
-import { randomInt } from "../gen/random";
 
 import ButterFly from "./butterfly";
 
@@ -152,12 +151,6 @@ class MothMother extends Boss {
         }
       }
     }
-
-    // if (!this.isDying()) {
-    //   this.body.setVelocity(0, this.goDown ? this.max_speed : -this.max_speed);
-    // } else {
-    //   this.body.setVelocity(0);
-    // }
     this.mothmother.setTint(0xffffff);
   }
 
