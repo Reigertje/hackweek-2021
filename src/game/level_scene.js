@@ -154,7 +154,7 @@ class LevelScene extends Phaser.Scene {
         }
         break;
       case "3":
-        if (this.scene.key === "level_3" || this.scene.key === "third_") {
+        if (this.scene.key === "level_3" || this.scene.key === "third_boss") {
           this.add.existing(new ButterFly(this, levelX, levelY));
         }
         break;
@@ -214,7 +214,7 @@ class LevelScene extends Phaser.Scene {
         enemy.hit(1);
       }
     });
-    this.physics.add.collider(enemies, rockets, (enemy, rocket) => {
+    this.physics.add.overlap(enemies, rockets, (enemy, rocket) => {
       rocket.kill();
       enemy.hit(5);
     });
