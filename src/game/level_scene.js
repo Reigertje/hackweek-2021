@@ -27,7 +27,6 @@ class LevelScene extends Phaser.Scene {
     this.load.image("rocket_icon", "assets/rocket_icon.png");
     this.load.image("shield_icon", "assets/shield_icon.png");
 
-
     this.load.spritesheet("powerup", "assets/powerup.png", {
       frameWidth: 24,
       frameHeight: 24,
@@ -147,12 +146,17 @@ class LevelScene extends Phaser.Scene {
         }
         break;
       case "2":
-        if (this.scene.key === "level_2" && randomInt(2) === 0) {
+        if (
+          (this.scene.key === "level_2" || this.scene.key === "level_3") &&
+          randomInt(2) === 0
+        ) {
           this.add.existing(new SpiderEgg(this, levelX, levelY - 6));
         }
         break;
       case "3":
-        this.add.existing(new ButterFly(this, levelX, levelY));
+        if (this.scene.key === "level_3" || this.scene.key === "third_") {
+          this.add.existing(new ButterFly(this, levelX, levelY));
+        }
         break;
       case "P":
         this.add.existing(
@@ -187,7 +191,7 @@ class LevelScene extends Phaser.Scene {
       portals,
       powerups,
       rockets,
-      powerup_icons
+      powerup_icons,
     } = this.refs;
 
     this.physics.add.collider(player, tiles, (player, tile) => {
@@ -311,12 +315,16 @@ class LevelScene extends Phaser.Scene {
 
   renderPowerUpIcons() {
     if (this.refs.player.powers.num_rockets && !this.rocket_icon) {
-      this.rocket_icon = this.add.image(204, 108, 'rocket_icon').setScrollFactor(0);
+      this.rocket_icon = this.add
+        .image(204, 108, "rocket_icon")
+        .setScrollFactor(0);
     }
 
     if (this.refs.player.powers.num_shields && !this.shield_icon) {
-     this.shield_icon = this.add.image(230, 108, 'shield_icon').setScrollFactor(0); 
-    }    
+      this.shield_icon = this.add
+        .image(230, 108, "shield_icon")
+        .setScrollFactor(0);
+    }
   }
 
   renderPowerUpIcon(powerup) {
@@ -324,17 +332,17 @@ class LevelScene extends Phaser.Scene {
   }
 
   destroyPowerUpIcon(powerUpName) {
-    if (powerUpName == 'rocket') {
+    if (powerUpName == "rocket") {
       if (this.rocket_icon) {
         this.rocket_icon.destroy();
-        this.rocket_icon = null;  
-        console.log('destroying ' + powerUpName + ' icon');
+        this.rocket_icon = null;
+        console.log("destroying " + powerUpName + " icon");
       }
-    } else if (powerUpName == 'shield') {
+    } else if (powerUpName == "shield") {
       if (this.shield_icon) {
         this.shield_icon.destroy();
         this.shield_icon = null;
-        console.log('destroying ' + powerUpName + ' icon');  
+        console.log("destroying " + powerUpName + " icon");
       }
     }
   }
