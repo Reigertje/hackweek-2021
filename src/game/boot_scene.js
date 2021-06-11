@@ -6,7 +6,7 @@ class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.spritesheet("title", "assets/splash.png", {
+    this.load.spritesheet("title", "/assets/splash.png", {
       frameWidth: 640,
       frameHeight: 640,
       endFrame: 28,

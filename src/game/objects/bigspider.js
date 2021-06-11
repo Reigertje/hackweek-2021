@@ -8,7 +8,7 @@ import SpiderEgg from "./spideregg";
 import SpiderKid from "./spiderkid";
 
 const PROPS = {
-  lives: 20,
+  lives: 1,
   width: 16,
   height: 16,
 };

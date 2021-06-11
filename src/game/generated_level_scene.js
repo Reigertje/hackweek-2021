@@ -11,18 +11,23 @@ class GeneratedLevelScene extends LevelScene {
   preload() {
     super.preload();
 
-    this.load.spritesheet("midge", "assets/midge_enemy.png", {
+    this.load.spritesheet("midge", "/assets/midge_enemy.png", {
       frameWidth: 24,
       frameHeight: 24,
     });
-    this.load.spritesheet("spiderkid", "assets/spiderkid.png", {
+    this.load.spritesheet("spiderkid", "/assets/spiderkid.png", {
       frameWidth: 11,
       frameHeight: 10,
     });
 
-    this.load.spritesheet("spideregg", "assets/spideregg.png", {
+    this.load.spritesheet("spideregg", "/assets/spideregg.png", {
       frameWidth: 12,
       frameHeight: 12,
+    });
+
+    this.load.spritesheet("butterfly", "/assets/butterfly.png", {
+      frameWidth: 9,
+      frameHeight: 9,
     });
   }
 

@@ -3,9 +3,8 @@ import * as Phaser from "phaser";
 import Portal from "../objects/portal";
 import { randomInt } from "../gen/random";
 
-
 const PROPS = {
-  lives: 10,
+  lives: 1,
   width: 32,
   height: 48,
 };

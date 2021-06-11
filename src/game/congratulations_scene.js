@@ -6,7 +6,7 @@ class CongratulationsScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.spritesheet("congrats", "assets/congratulations.png", {
+        this.load.spritesheet("congrats", "/assets/congratulations.png", {
             frameWidth: 800,
             frameHeight: 600,
             endFrame: 11,

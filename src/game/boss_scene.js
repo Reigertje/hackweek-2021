@@ -6,33 +6,33 @@ class BossScene extends LevelScene {
   preload() {
     super.preload();
 
-    this.load.spritesheet("mantisman", "assets/mantisboss.png", {
+    this.load.spritesheet("mantisman", "/assets/mantisboss.png", {
       frameWidth: 96,
       frameHeight: 67,
     });
-    this.load.spritesheet("bigspider", "assets/spiderboss.png", {
+    this.load.spritesheet("bigspider", "/assets/spiderboss.png", {
       frameWidth: 96,
       frameHeight: 96,
     });
-    this.load.spritesheet("spiderball", "assets/spiderball.png", {
+    this.load.spritesheet("spiderball", "/assets/spiderball.png", {
       frameWidth: 8,
       frameHeight: 8,
     });
-    this.load.spritesheet("spiderkid", "assets/spiderkid.png", {
+    this.load.spritesheet("spiderkid", "/assets/spiderkid.png", {
       frameWidth: 11,
       frameHeight: 10,
     });
 
-    this.load.spritesheet("spideregg", "assets/spideregg.png", {
+    this.load.spritesheet("spideregg", "/assets/spideregg.png", {
       frameWidth: 12,
       frameHeight: 12,
     });
 
-    this.load.spritesheet("mothmother", "assets/mothboss.png", {
+    this.load.spritesheet("mothmother", "/assets/mothboss.png", {
       frameWidth: 128,
       frameHeight: 96,
     });
-    this.load.spritesheet("butterfly", "assets/butterfly.png", {
+    this.load.spritesheet("butterfly", "/assets/butterfly.png", {
       frameWidth: 9,
       frameHeight: 9,
     });
