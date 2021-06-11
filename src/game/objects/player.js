@@ -64,7 +64,9 @@ class Player extends Phaser.GameObjects.Container {
   preUpdate() {
     if (!this.alive) return;
     if (this.scene.cutscene) {
+      console.log("stopping");
       this.body.stop();
+      this.body.setVelocity(0);
     }
 
     const scene = this.scene;
@@ -104,8 +106,8 @@ class Player extends Phaser.GameObjects.Container {
           this.powers.num_rockets--;
         }
         if (this.powers.num_rockets == 0) {
-          console.log('destroying rocket icon');
-          this.scene.destroyPowerUpIcon('rocket');
+          console.log("destroying rocket icon");
+          this.scene.destroyPowerUpIcon("rocket");
           this.powers.rocket = false;
         }
       } else {
@@ -125,9 +127,19 @@ class Player extends Phaser.GameObjects.Container {
     this.powers = {
       boost: this.powers.boost || powerup.powers.boost,
       rocket: this.powers.rocket || powerup.powers.rocket,
-      num_rockets: (this.powers.rocket || powerup.powers.rocket) ? (this.powers.num_rockets ? this.powers.num_rockets + 5 : 5) : 0,
+      num_rockets:
+        this.powers.rocket || powerup.powers.rocket
+          ? this.powers.num_rockets
+            ? this.powers.num_rockets + 5
+            : 5
+          : 0,
       shield: this.powers.shield || powerup.powers.shield,
-      num_shields: (this.powers.shield || powerup.powers.shield) ? (this.powers.num_shields ? this.powers.num_shields + 1 : 1) : 0,
+      num_shields:
+        this.powers.shield || powerup.powers.shield
+          ? this.powers.num_shields
+            ? this.powers.num_shields + 1
+            : 1
+          : 0,
       range: this.range + (powerup.powers.range || 0),
     };
 
@@ -158,23 +170,22 @@ class Player extends Phaser.GameObjects.Container {
   }
 
   destroyShield() {
-    console.log('start num_shields: ' + this.powers.num_shields);
+    console.log("start num_shields: " + this.powers.num_shields);
     if (this.powers.num_shields > 1) {
       // reduce number of shields
       this.powers.num_shields--;
-    }
-    else if (this.powers.num_shields == 1) {
-      // only one shield left  
+    } else if (this.powers.num_shields == 1) {
+      // only one shield left
       this.powers.num_shields--;
       this.powers.shield = false;
       this.ship.play("ship_normal");
-      this.scene.destroyPowerUpIcon('shield');
+      this.scene.destroyPowerUpIcon("shield");
     }
-    console.log('num_shields: ' + this.powers.num_shields);
+    console.log("num_shields: " + this.powers.num_shields);
   }
 
   damageOrKill() {
-    console.log('start damageOrKill: ' + this.powers.num_shields);
+    console.log("start damageOrKill: " + this.powers.num_shields);
 
     if (this.hasShield()) {
       this.destroyShield();

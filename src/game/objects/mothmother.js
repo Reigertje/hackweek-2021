@@ -63,15 +63,18 @@ class MothMother extends Boss {
     this.body.setVelocity(direction.x, direction.y);
   }
 
+  countButterflies() {
+    return this.scene.children.list.reduce((accum, value) => {
+      if (value instanceof ButterFly) {
+        return accum + 1;
+      }
+      return accum;
+    }, 0);
+  }
+
   spawnButterFlyIfPossible() {
-    if (
-      this.scene.children.list.reduce((accum, value) => {
-        if (value instanceof ButterFly) {
-          return accum + 1;
-        }
-        return accum;
-      }, 0) < MAX_BUTTERFLIES
-    ) {
+    if (this.countButterflies() < MAX_BUTTERFLIES) {
+      console.log("spawn");
       const butterfly = new ButterFly(this.scene, this.x, this.y);
       this.scene.add.existing(butterfly);
       return butterfly;
@@ -79,11 +82,53 @@ class MothMother extends Boss {
     return null;
   }
 
+  transform() {
+    this._stage = "transforming";
+    this.scene.cutscene = true;
+    this.scene.cameras.main.stopFollow();
+    this.scene.cameras.main.pan(
+      this.x,
+      this.y,
+      2000,
+      "Linear",
+      false,
+      (camera, progress) => {
+        if (progress === 1) {
+          this.mothmother.play({ key: "mothmother_transform", repeat: 0 });
+          this.scene.cameras.main.shake(1000, 0.001, false);
+          this.mothmother.once("animationcomplete", () => {
+            this.mothmother.play({
+              key: "mothmother_stage_2",
+              repeat: -1,
+            });
+            this.scene.cameras.main.pan(
+              this.scene.refs.player.x,
+              this.scene.refs.player.y,
+              1000,
+              "Linear",
+              false,
+              (camera, progress) => {
+                if (progress === 1) {
+                  this.scene.cameras.main.startFollow(this.scene.refs.player);
+                  this.scene.cutscene = false;
+                  this._stage = "stage_2";
+                  this.body.setMaxVelocity(20);
+                }
+              }
+            );
+          });
+        }
+      }
+    );
+  }
+
   preUpdate(time, delta) {
     if (this.scene.cutscene) {
       this.body.setVelocity(0);
-    } else if (this.body.speed === 0) {
-      this.changeDirection();
+    } else {
+      if (this.body.speed === 0) {
+        this.changeDirection();
+      }
 
       if (this._stage === "stage_1") {
         this._spawn_timer -= delta;
@@ -91,14 +136,19 @@ class MothMother extends Boss {
           this.spawnButterFlyIfPossible();
           this._spawn_timer = 10000;
         }
+
+        if (this.countButterflies() < 5) {
+          this.transform();
+        }
       } else if (this._stage === "stage_2") {
+        console.log("stage_2");
         this._spawn_timer -= delta;
         if (this._spawn_timer <= 0) {
           const butterfly = this.spawnButterFlyIfPossible();
           if (butterfly) {
             butterfly.setMother(this);
           }
-          this._spawn_timer = 3000;
+          this._spawn_timer = 1000;
         }
       }
     }
