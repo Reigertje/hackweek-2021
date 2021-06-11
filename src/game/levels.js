@@ -7,7 +7,7 @@ class FirstLevel extends GeneratedLevelScene {
     super("level_1", {
       next: "first_boss",
       backgroundAsset: "assets/background_1.png",
-      tilesAsset: "assets/wall.png",
+      tilesAsset: "assets/tiles_1.png",
       mazeWidth: 2,
       mazeHeight: 2,
     });

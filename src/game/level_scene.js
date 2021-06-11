@@ -113,7 +113,7 @@ class LevelScene extends Phaser.Scene {
   buildTile(tiles, tile, tileX, tileY, levelX, levelY, isStart, isExit) {
     switch (tile) {
       case "#":
-        tiles.putTileAt(randomInt(4), tileX, tileY);
+        tiles.putTileAt(randomInt(2), tileX, tileY);
         break;
       case "C":
         if (isStart) {
