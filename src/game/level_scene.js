@@ -24,6 +24,9 @@ class LevelScene extends Phaser.Scene {
   preload() {
     this.textures.remove("background");
     this.load.image("background", this.props.backgroundAsset);
+    this.load.image("rocket_icon", "assets/rocket_icon.png");
+    this.load.image("shield_icon", "assets/shield_icon.png");
+
 
     this.load.spritesheet("powerup", "assets/powerup.png", {
       frameWidth: 24,
@@ -60,6 +63,8 @@ class LevelScene extends Phaser.Scene {
       frameWidth: 50,
       frameHeight: 50,
     });
+
+    this.refs.powerup_icons = {};
   }
 
   buildLevel() {
@@ -182,6 +187,7 @@ class LevelScene extends Phaser.Scene {
       portals,
       powerups,
       rockets,
+      powerup_icons
     } = this.refs;
 
     this.physics.add.collider(player, tiles, (player, tile) => {
@@ -300,6 +306,33 @@ class LevelScene extends Phaser.Scene {
   selectRandomPowerup() {
     var items = [SHIELD, ROCKET];
     return items[Math.floor(Math.random() * items.length)];
+  }
+
+  renderPowerUpIcon(powerup) {
+    this.refs.powerup_icons = {
+      rocket: powerup.props.asset == 'rocket' ? true : false,
+      shield: powerup.props.asset == 'shield' ? true : false,
+    };
+
+    if (this.refs.powerup_icons.rocket && !this.rocket_icon) {
+      this.rocket_icon = this.add.image(204, 108, powerup.props.asset+'_icon').setScrollFactor(0);
+    }
+
+    if (this.refs.powerup_icons.shield) {
+     this.shield_icon = this.add.image(230, 108, powerup.props.asset+'_icon').setScrollFactor(0); 
+    }    
+  }
+
+  destroyPowerUpIcon(powerUpName) {
+    if (powerUpName == 'rocket') {
+      this.rocket_icon.destroy();
+      this.rocket_icon = null;
+      console.log('destroying ' + powerUpName + ' icon');
+    } else if (powerUpName == 'shield') {
+      this.shield_icon.destroy();
+      this.shield_icon = null;
+      console.log('destroying ' + powerUpName + ' icon');
+    }
   }
 }
 
