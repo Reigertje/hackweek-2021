@@ -18,13 +18,15 @@ class BossScene extends LevelScene {
       frameWidth: 8,
       frameHeight: 8,
     });
-
     this.load.spritesheet("spiderkid", "assets/spiderkid.png", {
       frameWidth: 11,
       frameHeight: 10,
     });
 
-    this.load.image("spideregg", "assets/spideregg.png");
+    this.load.spritesheet("spideregg", "assets/spideregg.png", {
+      frameWidth: 12,
+      frameHeight: 12,
+    });
   }
 
   getLevel() {

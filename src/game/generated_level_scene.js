@@ -15,6 +15,15 @@ class GeneratedLevelScene extends LevelScene {
       frameWidth: 24,
       frameHeight: 24,
     });
+    this.load.spritesheet("spiderkid", "assets/spiderkid.png", {
+      frameWidth: 11,
+      frameHeight: 10,
+    });
+
+    this.load.spritesheet("spideregg", "assets/spideregg.png", {
+      frameWidth: 12,
+      frameHeight: 12,
+    });
   }
 
   getLevel() {

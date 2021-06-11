@@ -7,6 +7,7 @@ import Mosquito from "./objects/mosquito";
 import Portal from "./objects/portal";
 import MantisMan from "./objects/mantisman";
 import BigSpider from "./objects/bigspider";
+import SpiderEgg from "./objects/spideregg";
 import PowerUp, { SHIELD, ROCKET } from "./objects/powerup";
 
 import { randomInt } from "./gen/random";
@@ -136,6 +137,11 @@ class LevelScene extends Phaser.Scene {
       case "1":
         if (randomInt(2) === 0) {
           this.add.existing(new Mosquito(this, levelX, levelY));
+        }
+        break;
+      case "2":
+        if (this.scene.key === "level_2" && randomInt(2) === 0) {
+          this.add.existing(new SpiderEgg(this, levelX, levelY - 6));
         }
         break;
       case "P":

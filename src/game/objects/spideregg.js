@@ -1,5 +1,6 @@
 import Enemy from "./enemy";
 import SpiderKid from "./spiderkid";
+import * as Phaser from "phaser";
 
 const PROPS = {
   lives: 1,
@@ -14,19 +15,48 @@ class SpiderEgg extends Enemy {
     this.spiderball = scene.add.sprite(0, 0, "spideregg");
 
     this.add(this.spiderball);
+
+    scene.anims.create({
+      key: "spideregg_chilling",
+      frames: scene.anims.generateFrameNumbers("spideregg", {
+        start: 0,
+        end: 3,
+      }),
+      frameRate: 8,
+    });
+
+    scene.anims.create({
+      key: "spideregg_flying",
+      frames: scene.anims.generateFrameNumbers("spideregg", {
+        start: 4,
+        end: 7,
+      }),
+      frameRate: 8,
+    });
+
+    this.chill();
+  }
+
+  chill() {
+    this._state = "chilling";
+    this.spiderball.play({ key: "spideregg_chilling", repeat: -1 });
   }
 
   launch(direction) {
+    this._state = "flying";
+    this.spiderball.play({ key: "spideregg_flying", repeat: -1 });
     direction.setLength(50);
     this.body.setVelocity(direction.x, direction.y);
   }
 
   preUpdate() {
-    // if (!this.isDying()) {
-    //   this.body.setVelocity(0, this.goDown ? this.max_speed : -this.max_speed);
-    // } else {
-    //   this.body.setVelocity(0);
-    // }
+    if (this._state === "chilling") {
+      const player = this.scene.refs.player;
+
+      if (Math.abs(player.x - this.x) < 5 && player.y - this.y < 7 * 24) {
+        this.launch(new Phaser.Math.Vector2(0, 1));
+      }
+    }
   }
 
   hit(damage) {
