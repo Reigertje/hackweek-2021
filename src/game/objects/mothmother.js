@@ -73,7 +73,6 @@ class MothMother extends Boss {
 
   spawnButterFlyIfPossible() {
     if (this.countButterflies() < MAX_BUTTERFLIES) {
-      console.log("spawn");
       const butterfly = new ButterFly(this.scene, this.x, this.y);
       this.scene.add.existing(butterfly);
       return butterfly;
@@ -140,7 +139,6 @@ class MothMother extends Boss {
           this.transform();
         }
       } else if (this._stage === "stage_2") {
-        console.log("stage_2");
         this._spawn_timer -= delta;
         if (this._spawn_timer <= 0) {
           const butterfly = this.spawnButterFlyIfPossible();

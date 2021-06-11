@@ -30,8 +30,6 @@ class LevelGenerator {
     );
 
     generateLevel(level, maze, templates);
-    console.log(maze.toString());
-    console.log(level.toString());
     return level;
   }
 }

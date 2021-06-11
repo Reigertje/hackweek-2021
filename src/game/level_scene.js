@@ -276,8 +276,6 @@ class LevelScene extends Phaser.Scene {
       [],
       this
     );
-
-    // Add timed event to call this.create()
   }
 
   nextLevel() {
@@ -334,13 +332,11 @@ class LevelScene extends Phaser.Scene {
       if (this.rocket_icon) {
         this.rocket_icon.destroy();
         this.rocket_icon = null;
-        console.log("destroying " + powerUpName + " icon");
       }
     } else if (powerUpName === "shield") {
       if (this.shield_icon) {
         this.shield_icon.destroy();
         this.shield_icon = null;
-        console.log("destroying " + powerUpName + " icon");
       }
     }
   }

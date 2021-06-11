@@ -104,7 +104,6 @@ class Player extends Phaser.GameObjects.Container {
           this.powers.num_rockets--;
         }
         if (this.powers.num_rockets === 0) {
-          console.log("destroying rocket icon");
           this.scene.destroyPowerUpIcon("rocket");
           this.powers.rocket = false;
         }
@@ -168,7 +167,6 @@ class Player extends Phaser.GameObjects.Container {
   }
 
   destroyShield() {
-    console.log("start num_shields: " + this.powers.num_shields);
     if (this.powers.num_shields > 1) {
       // reduce number of shields
       this.powers.num_shields--;
@@ -179,12 +177,9 @@ class Player extends Phaser.GameObjects.Container {
       this.ship.play("ship_normal");
       this.scene.destroyPowerUpIcon("shield");
     }
-    console.log("num_shields: " + this.powers.num_shields);
   }
 
   damageOrKill() {
-    console.log("start damageOrKill: " + this.powers.num_shields);
-
     if (this.hasShield()) {
       this.destroyShield();
     } else {
