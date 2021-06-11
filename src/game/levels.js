@@ -19,7 +19,7 @@ class FirstBossLevel extends BossScene {
     super("first_boss", {
       next: "level_2",
       backgroundAsset: "assets/background_1.png",
-      tilesAsset: "assets/wall.png",
+      tilesAsset: "assets/tiles_2.png",
       template: new Template(17, 13, [
         "#################",
         "#...#.......#...#",

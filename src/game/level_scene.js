@@ -120,7 +120,7 @@ class LevelScene extends Phaser.Scene {
   buildTile(tiles, tile, tileX, tileY, levelX, levelY, isStart, isExit) {
     switch (tile) {
       case "#":
-        tiles.putTileAt(randomInt(2), tileX, tileY);
+        tiles.putTileAt(randomInt(4), tileX, tileY);
         break;
       case "C":
         if (isStart) {
@@ -332,13 +332,13 @@ class LevelScene extends Phaser.Scene {
   }
 
   destroyPowerUpIcon(powerUpName) {
-    if (powerUpName == "rocket") {
+    if (powerUpName === "rocket") {
       if (this.rocket_icon) {
         this.rocket_icon.destroy();
         this.rocket_icon = null;
         console.log("destroying " + powerUpName + " icon");
       }
-    } else if (powerUpName == "shield") {
+    } else if (powerUpName === "shield") {
       if (this.shield_icon) {
         this.shield_icon.destroy();
         this.shield_icon = null;
